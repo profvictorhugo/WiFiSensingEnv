@@ -47,7 +47,6 @@ pip --version
 Se aparecer as versões válidas deles, tá tudo certo, se não:
 
 - Pressione Win + R, digite sysdm.cpl e pressione Enter.
-- Navegar até as Variáveis de Ambiente:
 - Clique em Avançado > Variáveis de Ambiente.
 - Na seção Variáveis do sistema, encontre e selecione Path, depois clique em Editar.
 - Clique em Novo e adicione o caminho para a pasta Scripts do Python, um exemplo: (o python39 é a versão 3.9 do python, troque pela versão que foi instalada, se foi 3.11 será 311 e assim por diante)
