@@ -10,6 +10,7 @@ Plataforma SensingFI
 ## Passos de instalação
 ### Linux 
 Rode o programa abaixo pra conseguir instalar o python
-(```
+```
 sudo apt update
-sudo apt install python3 python3-pip```)
+sudo apt install python3 python3-pip
+```
