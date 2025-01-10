@@ -73,7 +73,9 @@ Caso prefira instalar as coisas em um ambiente virtual, segue os passos
 
 ### Linux/macOS
 Precisaremos usar o comando "venv", pra baixar ele rode: `sudo apt install python3-venv`
+
 Agora, vá no diretório que você quer usar e execute o comando: `python3 -m venv nome_que_quiser_pro_ambiente`
+
 E para ativar ele rode: `source nome_do_ambiente/bin/activate`
 
 ---
