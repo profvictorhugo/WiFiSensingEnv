@@ -15,7 +15,7 @@ sudo apt install python3 python3-pip
 ```
 
 ---
-### Mac Os
+### macOS
 Com o Mac, usaremos o comando do Homebrew, segue o código de instalação dele
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -60,22 +60,27 @@ C:\Python39\
 python --version
 pip --version
 ```
+
 ---
 ## Instalando o Flask
-
-
-
-
-
-
-
-
-
-
-
-Com o python instalado, podemos instalar o flask
+Com o python instalado devidamente, podemos instalar o flask
 ```
 pip3 install flask
 ```
+---
+## Ambiente Virtual
+Caso prefira instalar as coisas em um ambiente virtual, segue os passos
+
+### Linux/macOS
+Precisaremos usar o comando "venv", pra baixar ele rode: `sudo apt install python3-venv`
+Agora, vá no diretório que você quer usar e execute o comando: `python3 -m venv nome_que_quiser_pro_ambiente`
+E para ativar ele rode: `source nome_do_ambiente/bin/activate`
+
+---
+### Windows
+
+
+
+
 
 
