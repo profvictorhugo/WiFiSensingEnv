@@ -28,7 +28,15 @@ brew install python
 
 ---
 ### Windows
-Vamos precisar do "Chocolatey", pra isso, abra o PowerShell como administrador e coloque o código:
+Pode ser baixado de 2 formas: 
+- Usar o [site oficial](https://www.python.org/downloads/)
+- Usar o terminal
+
+#### Usando o site
+Se você escolheu baixar pelo site, no site vai ter um botão amarelo falando baixar o python mais recente, após baixar, ao abrir a janela do programa, marque as caixas que falam sobre usar privilégios de administrador e de adicionar ao PATH do sistema e espere baixar, e estará tudo pronto
+
+#### Usando o terminal
+Agora, se escolheu o terminal, vamos precisar do "Chocolatey", pra isso, abra o PowerShell como administrador e coloque o código:
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force; `
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
@@ -69,6 +77,8 @@ pip3 install flask
 ```
 ---
 ## Ambiente Virtual
+(Certifique de ter instalado o python da forma que foi mostrada)
+
 Caso prefira instalar as coisas em um ambiente virtual, segue os passos
 
 ### Linux/macOS
@@ -80,6 +90,8 @@ E para ativar ele rode: `source nome_do_ambiente/bin/activate`
 
 ---
 ### Windows
+Pra fazer o mesmo com o Windows, rode o programa: `python -m venv nome_que_quiser_pro_ambiente`
+
 
 
 
