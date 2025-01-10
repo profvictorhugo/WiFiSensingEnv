@@ -1,7 +1,7 @@
-#SensingFI
+# SensingFI
 Plataforma SensingFI
 
-##Pré-requisitos para conseguir rodar o Framework
+## Pré-requisitos para conseguir rodar o Framework
 
 - Ter o python 3.0.0 pra cima instalado em seu computador
 - Ter a biblioteca Flask do python instalada
@@ -12,8 +12,8 @@ Plataforma SensingFI
 
 
 
-##Passos de instalação
-###Linux 
+## Passos de instalação
+### Linux 
 Rode o programa abaixo pra conseguir instalar o python
 ```
 sudo apt update
@@ -21,7 +21,7 @@ sudo apt install python3 python3-pip
 ```
 
 ---
-###macOS
+### macOS
 Com o Mac, usaremos o comando do Homebrew, segue o código de instalação dele
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -33,15 +33,15 @@ brew install python
 ```
 
 ---
-###Windows
+### Windows
 Pode ser baixado de 2 formas: 
 - Usar o [site oficial](https://www.python.org/downloads/)
 - Usar o terminal
 
-####Usando o site
+#### Usando o site
 Se você escolheu baixar pelo site, no site vai ter um botão amarelo falando baixar o python mais recente, após baixar, ao abrir a janela do programa, marque as caixas que falam sobre usar privilégios de administrador e de adicionar ao PATH do sistema e espere baixar, e estará tudo pronto
 
-####Usando o terminal
+#### Usando o terminal
 Agora, se escolheu o terminal, vamos precisar do "Chocolatey", pra isso, abra o PowerShell como administrador e coloque o código:
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force; `
@@ -76,18 +76,18 @@ pip --version
 ```
 
 ---
-##Instalando o Flask
+## Instalando o Flask
 Com o python instalado devidamente, podemos instalar o flask
 ```
 pip3 install flask
 ```
 ---
-##Ambiente Virtual
+## Ambiente Virtual
 (Certifique de ter instalado o python da forma que foi mostrada)
 
 Caso prefira instalar as coisas em um ambiente virtual, segue os passos
 
-###Linux/macOS
+### Linux/macOS
 Precisaremos usar o comando "venv", pra baixar ele rode: `sudo apt install python3-venv`
 
 Agora, vá no diretório que você quer usar e execute o comando: `python3 -m venv nome_que_quiser_pro_ambiente`
@@ -99,7 +99,7 @@ Com ele ativo, podemos rodar o código: `pip3 install Flask`
 Pra desativar o ambiente é só rodar: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
 
 ---
-###Windows
+### Windows
 Pra fazer o mesmo com o Windows, rode o programa: `python -m venv nome_que_quiser_pro_ambiente`
 
 Para ativar ele, rode: `.\nome_do_ambiente\Scripts\activate`
@@ -107,11 +107,6 @@ Para ativar ele, rode: `.\nome_do_ambiente\Scripts\activate`
 Com ele ativo, instale o flask: `pip3 install Flask`
 
 Pra desativar o ambiente, rode no terminal: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
-
-
-
-
-
 
 
 
