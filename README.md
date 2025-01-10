@@ -88,9 +88,20 @@ Agora, vá no diretório que você quer usar e execute o comando: `python3 -m ve
 
 E para ativar ele rode: `source nome_do_ambiente/bin/activate`
 
+Com ele ativo, podemos rodar o código: `pip3 install Flask`
+
+Pra desativar o ambiente é só rodar: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
+
 ---
 ### Windows
 Pra fazer o mesmo com o Windows, rode o programa: `python -m venv nome_que_quiser_pro_ambiente`
+
+Para ativar ele, rode: `.\nome_do_ambiente\Scripts\activate`
+
+Com ele ativo, instale o flask: `pip3 install Flask`
+
+Pra desativar o ambiente, rode no terminal: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
+
 
 
 
