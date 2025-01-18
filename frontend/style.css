@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  line-height: 1.6;
+  color: #333;
+  background-color: #81FFE6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  box-shadow: inset 0 2px 51.3px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(to bottom, rgba(129, 255, 230, 0.61),rgba(77, 153, 138, 0.96));
+}
+
+.cartao {
+  background-color:rgba(34, 73, 98, 0.85);
+  height: 31rem;
+  width: 23rem;
+  border-radius: 7px;
+  box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.3),
+  inset 0 1px 10px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo img {
+  margin-bottom: 0.7rem;
+  max-height: 80px;
+}
+
+.email-senha{
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative;
+}
+
+.email-senha input {
+  
+  border: none;
+  outline: none;
+  background: rgba(34, 73, 98, 0.85);
+  border-radius: 7px;
+  padding: 6px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+  font-size: 1rem;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', sans-serif;
+
+}
+
+.email-senha .icon {
+  position: absolute;
+  left: 17px;
+  bottom: 9px;
+}
+
+.botao {
+  background-color: rgba(119, 236, 216, 0.76);
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 1rem;
+  font-weight:550;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 10px;
+  width: 70%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Inter', sans-serif;
+
+}
+
+.botao:hover {
+  background-color: rgba(104, 217, 197, 0.76);
+}
+
+.esqueceu-senha {
+  color: rgba(129, 255, 230, 0.47);
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: block;
+  font-family: 'Inter', sans-serif;
+
+  margin-top: 3rem;
+}
+
+.esqueceu-senha:hover {
+  text-decoration: underline;
+}
