@@ -14,3 +14,20 @@ class Usuario(db.Model):
                 }
 
 
+class Dispositivo(db.Model):
+        id = db.Column(db.Integer, primary_key = True)
+        nome = db.Column(db.String(90))
+        descricao = db.Column(db.String(150))
+        script_configuracao = db.Column(db.String(200))
+
+
+        def to_Json(self):
+                return {
+                        "id": self.id,
+                        "nome": self.nome,
+                        "descrição": self.descricao,
+                        "script_configuração": self.script_configuracao
+                }
+
+
+
