@@ -9,9 +9,9 @@ def logar_usuario():
         senha = request.json.get("senha")
 
         # vendo se as informações bate
-        cidadao = Usuario.query.filter(Usuario.email == email, Usuario.senha == senha).first()
+        usuario = Usuario.query.filter(Usuario.email == email, Usuario.senha == senha).first()
 
-        if not cidadao:
+        if not usuario:
                 return jsonify({"mensagem": "nunca vi tão gordo na vida :( )"}), 400
 
         # o bem venceu
@@ -49,9 +49,13 @@ def consulta_usuario():
 
         # pegando o email do usuario
         email = request.json.get("email")
-        usuario = Usuario.query.filter(Usuario.email == email).first()
+
+        if not email:
+                return jsonify({"mensagem": "nenhum email passado"}), 400
 
         # hora da prova final
+        usuario = Usuario.query.filter(Usuario.email == email).first()
+
         if not usuario:
                 return jsonify({"mensagem": "ninguém tem nada parecido com isso ai"}), 400
 
@@ -98,18 +102,21 @@ def altera_usuario():
 @app.route("/remove_usuario", methods=["POST"])
 def remove_usuario():
         
+        # pegando o email, já que ele é único
         data = request.json
 
-        email = data.get("email")
+        email = data.get("email")        
         
         if not email:
                 return jsonify({"mensagem": "informe o email"}), 400
         
+        # vendo se esse usuário existe
         usuario = Usuario.query.filter(Usuario.email == email).first()
 
         if not usuario:
                 return jsonify({"mensagem": "usuário não encontrado"}), 404     
         
+        # deletando do banco de dados
         try:
                 db.session.delete(usuario)
                 db.session.commit()
@@ -130,6 +137,7 @@ def cadastra_dispositivo():
         data = request.json
 
         nome_dispo = data.get("nome")
+        codigo_disp = data.get("codigo")
         desc_dispo = data.get("descrição")
         script_dispo = data.get("script")
         
@@ -137,6 +145,7 @@ def cadastra_dispositivo():
         # facilitando minha vida
         novo_dispositivo = Dispositivo(
                 nome = nome_dispo,
+                codigo = codigo_disp,
                 descricao = desc_dispo,
                 script = script_dispo
         )
@@ -159,7 +168,45 @@ def cadastra_dispositivo():
 
 @app.route("/usuario/altera_dispositivo", methods=["POST"])
 def altera_dispositivo():
-        pass
+        
+        data = request.json
+
+        # encontrando o codigo do dispositivo cadastrado (ele é único e não será mudado)
+        codigo_disp = data.get("codigo")        
+
+        if not codigo_disp:
+                return jsonify({"mensagem": "informe o id do dispositivo"}), 400
+        
+        dispositivo = Dispositivo.query.filter(Dispositivo.codigo == codigo_disp).first()
+
+        if not dispositivo:
+                return jsonify({"mensagem": "esse código não consta no banco de dados"}), 403
+
+        # agora que foi achado, podemos mudar suas coisas
+        novo_nome = data.get("nome")
+        nova_desc = data.get("descrição")
+        novo_script = data.get("script")
+
+        if novo_nome:
+                dispositivo.nome = novo_nome
+
+        if nova_desc:
+                dispositivo.descricao = nova_desc
+
+        if novo_script:
+                dispositivo.script_configuracao = novo_script
+
+        
+        # salvando no banco de dados
+        try:
+                db.session.commit()
+
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "deu um problema pra alterar no bd"}), 400                
+
+        return jsonify({"mensagem": "dados alterados :D"}), 200
+
 
 
 

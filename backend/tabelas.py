@@ -22,12 +22,14 @@ class Usuario(db.Model):
 
 class Dispositivo(db.Model):
         id = db.Column(db.Integer, primary_key = True)
+        codigo = db.Column(db.String(9), unique = True)
         nome = db.Column(db.String(90))
         descricao = db.Column(db.String(150))
         script_configuracao = db.Column(db.String(200))
 
 
-        def __init__(self, nome, descricao, script):
+        def __init__(self, codigo, nome, descricao, script):
+                self.codigo = codigo,
                 self.nome = nome,
                 self.descricao = descricao,
                 self.script_configuracao = script
@@ -36,6 +38,7 @@ class Dispositivo(db.Model):
         def to_Json(self):
                 return {
                         "id": self.id,
+                        "codigo": self.codigo,
                         "nome": self.nome,
                         "descrição": self.descricao,
                         "script_configuração": self.script_configuracao
