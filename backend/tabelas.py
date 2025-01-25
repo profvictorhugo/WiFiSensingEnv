@@ -6,6 +6,11 @@ class Usuario(db.Model):
         senha = db.Column(db.String(16), nullable=False)
 
 
+        def __init__(self, email, senha):
+                self.email = email,
+                self.senha = senha
+
+
         def to_Json(self):
                 return {
                         "id": self.id,
@@ -14,11 +19,18 @@ class Usuario(db.Model):
                 }
 
 
+
 class Dispositivo(db.Model):
         id = db.Column(db.Integer, primary_key = True)
         nome = db.Column(db.String(90))
         descricao = db.Column(db.String(150))
         script_configuracao = db.Column(db.String(200))
+
+
+        def __init__(self, nome, descricao, script):
+                self.nome = nome,
+                self.descricao = descricao,
+                self.script_configuracao = script
 
 
         def to_Json(self):
