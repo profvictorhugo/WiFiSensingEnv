@@ -45,4 +45,24 @@ class Dispositivo(db.Model):
                 }
 
 
+class Dataset(db.Model):
+        id = db.Column(db.Integer, primary_key = True)
+        url = db.Column(db.String(120), nullable = False, unique = True)
+        nome = db.Column(db.String(90))
+        descricao = db.Column(db.String(150))
 
+
+        def __init__(self, id, url, nome, desc):
+                self.id = id
+                self.url = url
+                self.nome = nome
+                self.descricao = desc
+
+
+        def to_Json(self):
+                return {
+                        "id": self.id,
+                        "url": self.url,
+                        "nome": self.nome,
+                        "descrição": self.descricao
+                }

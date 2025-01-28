@@ -5,8 +5,11 @@ from tabelas import Usuario, Dispositivo
 # routes para manipulação com usuário
 @app.route("/login", methods=['GET'])
 def logar_usuario():
-        email = request.json.get("email")
-        senha = request.json.get("senha")
+
+        data = request.json
+
+        email = data.get("email")
+        senha = data.get("senha")
 
         # vendo se as informações bate
         usuario = Usuario.query.filter(Usuario.email == email, Usuario.senha == senha).first()
@@ -21,8 +24,11 @@ def logar_usuario():
 
 @app.route("/cadastra_usuario", methods=['POST'])
 def cadastra_usuario():
-        email = request.json.get("email")
-        senha = request.json.get("senha")
+
+        data = request.json
+
+        email = data.get("email")
+        senha = data.get("senha")
 
         if not email or not senha:
                 return (
@@ -48,7 +54,8 @@ def cadastra_usuario():
 def consulta_usuario():
 
         # pegando o email do usuario
-        email = request.json.get("email")
+        data = request.json
+        email = data.get("email")
 
         if not email:
                 return jsonify({"mensagem": "nenhum email passado"}), 400
@@ -69,8 +76,10 @@ def consulta_usuario():
 def altera_usuario():
 
         # pego o email antigo pra ver qual o usuário
-        email_antigo = request.json.get("email_antigo")
-        nova_senha = request.json.get("nova_senha")
+        data = request.json
+
+        email_antigo = data.get("email_antigo")
+        nova_senha = data.get("nova_senha")
         
         if not email_antigo:
                 return jsonify({"mensagem": "informe o email antigo"}), 400
@@ -206,6 +215,61 @@ def altera_dispositivo():
                 return jsonify({"mensagem": "deu um problema pra alterar no bd"}), 400                
 
         return jsonify({"mensagem": "dados alterados :D"}), 200
+
+@app.route("/usuario/remove_dispositivo", methods=["POST"])
+def remove_dispositivo():
+
+        # verificando o código passado
+        data = request.json
+        codigo = data.get("codigo")
+
+        if not codigo:
+                return jsonify({"mensagem": "nenhum código informado"}), 400
+
+        # procurando ele no banco de dados
+        disp = Dispositivo.query.filter(Dispositivo.codigo == codigo).first()           
+
+        if not disp:
+                return jsonify({"mensagem": "dispositivo não encontrado"}), 403
+
+        # comentário pra organização :D
+        try:
+                db.session.delete(disp)
+                db.session.commit()
+        
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "deu problema na hora de tirar do banco de dados"}), 400 
+
+        return jsonify({"mensagem": "dispositivo removido"}), 200
+
+
+@app.route("/usuario/consulta_dispositivo", methods=["POST"])
+def consulta_dispositivo():
+
+        data = request.json
+        codigo = data.get("codigo")
+
+        if not codigo:
+                return jsonify({"mensagem": "nenhum código passado"}), 400
+
+
+        disp = Dispositivo.query.filter(Dispositivo.codigo == codigo).first() 
+
+        if not disp:
+                return jsonify({"mensagem": "nenhum dispositivo encontrado"}), 403
+
+
+        json_disp = disp.to_Json()
+
+        return jsonify({"dispositivo": json_disp}), 200
+
+
+# routes para manipulação de datasets
+# @app.route("/usuario/cadastra_")
+
+
+
 
 
 
