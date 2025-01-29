@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from config import app, db
-from tabelas import Usuario, Dispositivo
+from tabelas import Usuario, Dispositivo, Dataset, Modelo
 
 # routes para manipulação com usuário
 @app.route("/login", methods=['GET'])
@@ -15,7 +15,7 @@ def logar_usuario():
         usuario = Usuario.query.filter(Usuario.email == email, Usuario.senha == senha).first()
 
         if not usuario:
-                return jsonify({"mensagem": "nunca vi tão gordo na vida :( )"}), 400
+                return jsonify({"mensagem": "nunca vi tão gordo na vida :( "}), 400
 
         # o bem venceu
         return jsonify({"mensagem": "cidadão tá logado :)"}), 201
@@ -132,7 +132,7 @@ def remove_usuario():
         
         except Exception as e:
                 db.session.rollback()
-                return jsonify({"mensagem": "deu ruim pra tirar do bd"}), 400
+                return jsonify({"mensagem": "deu ruim pra tirar do bd", "causa": str(e)}), 400
         
         return jsonify({"mensagem": "removido :)"}), 200
 
@@ -239,7 +239,7 @@ def remove_dispositivo():
         
         except Exception as e:
                 db.session.rollback()
-                return jsonify({"mensagem": "deu problema na hora de tirar do banco de dados"}), 400 
+                return jsonify({"mensagem": "deu problema na hora de tirar do banco de dados", "causa": str(e)}), 400 
 
         return jsonify({"mensagem": "dispositivo removido"}), 200
 
@@ -266,8 +266,153 @@ def consulta_dispositivo():
 
 
 # routes para manipulação de datasets
-# @app.route("/usuario/cadastra_")
+@app.route("/usuario/cadastra_dataset", methods=["POST"])
+def cadastra_dataset():
 
+        data = request.json
+
+        url = data.get("url")
+        nome = data.get("nome")
+        desc = data.get("desc")
+
+        if not url:
+                return jsonify({"mensagem": "informe a url"}), 400
+
+        # mandando pro banco de dados
+        dataset = Dataset(
+                url = url, 
+                nome = nome, 
+                desc = desc
+                )
+        
+        json_dataset = dataset.to_Json()
+
+        try:
+                db.session.add(dataset)
+                db.session.commit()
+        
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "deu algum problema pra criar no banco de dados", "causa": str(e)}), 400
+
+        return jsonify({"mensagem": "dataset cadastrado", "dataset": json_dataset}), 200
+
+
+@app.route("/usuario/consulta_dataset", methods=["POST"])
+def consulta_dataset():
+
+        url = request.json.get("url")
+
+        if not url:
+                return jsonify({"mensagem": "informe a url do dataset"}), 400
+
+        dataset = Dataset.query.filter(Dataset.url == url).first()
+
+        if not dataset:
+                return jsonify({"mensagem": "nenhuma dataset com essa url encontrada"}), 403
+
+        json_dataset = dataset.to_Json()
+        return jsonify({"dataset encontrado": json_dataset}), 200
+
+
+
+@app.route("/usuario/altera_dataset", methods=["POST"])
+def altera_dataset():
+
+        data = request.json
+
+        url = data.get("url")
+
+        if not url:
+                return jsonify({"mensagem": "informe o url"}), 400
+
+        dataset = Dataset.query.filter(Dataset.url == url).first()
+
+        if not dataset:
+                return jsonify({"mensagem": "nenhum dataset encontrado"}), 403 
+
+        novo_nome = data.get("nome")
+        nova_desc = data.get("desc")
+
+        if novo_nome:
+                dataset.nome = novo_nome
+        
+        if nova_desc:
+                dataset.descricao = nova_desc
+
+        try:
+                db.session.commit()
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "deu problema pra alterar", "causa": str(e)}), 400
+
+        return jsonify({"mensagem": "alterado :)"}), 200
+
+
+@app.route("/usuario/remove_dataset", methods=["POST"])
+def remove_dataset():
+
+        url = request.json.get("url")
+
+        if not url:
+                return jsonify({"mensagem": "informe o url"}), 400
+
+        dataset = Dataset.query.filter(Dataset.url == url).first()
+
+        if not dataset:
+                return jsonify({"mensagem": "nenhum dataset encontrado"}), 403
+
+        try:
+                db.session.delete(dataset)
+                db.session.commit()
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "não foi possível tirar do banco de dados", "causa": str(e)}), 400
+
+        return jsonify({"mensagem": "dataset deletado"}), 200
+
+
+
+# routes para modelos
+@app.route("/usuario/cadastra_modelo", methods=["POST"])
+def cadastra_modelo():
+
+        data = request.json
+
+        email = data.get("email")
+
+        if not email:
+                return jsonify({"mensagem": "informe seu email"}), 400
+
+        usuario = Usuario.query.filter(Usuario.email == email).first()
+
+        if not usuario:
+                return jsonify({"mensagem": "esse email não está cadastrado"}), 403
+
+        url = data.get("url")
+        nome = data.get("nome")
+        desc = data.get("descricao")
+
+        if not url:
+                return jsonify({"mensagem": "informe o url do modelo"}), 400
+        
+        modelo = Modelo(
+                id_usuario = usuario.id,
+                url = url,
+                nome = nome,
+                descricao = desc
+        )
+
+        json_modelo = modelo.to_Json()
+
+        try:
+                db.session.add(modelo)
+                db.session.commit()
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "não foi possível cadastrar", "causa": str(e)}), 400
+        
+        return jsonify({"mensagem": "cadastrado", "modelo": json_modelo}), 200
 
 
 
