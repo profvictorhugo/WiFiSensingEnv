@@ -415,10 +415,94 @@ def cadastra_modelo():
         return jsonify({"mensagem": "cadastrado", "modelo": json_modelo}), 200
 
 
+# então, daqui pra baixo eu não consegui testar pq meu postman simplesmente não quis abrir
+# eu ainda vou testar ele quando ele voltar a abrir
+# NÃO FAÇA NADA COM AS COISAS DAS FUNÇÕES DE BAIXO
+# EU AINDA VOU TESTAR ISSO TUDO NO POSTMAN
+@app.route("/usuario/consulta_modelo", methods=["POST"])
+def consulta_modelo():
+
+        url = request.json.get("url")
+        if not url:
+                return jsonify({"mensagem": "informe a url do modelo"}), 400
+
+
+        modelo = Modelo.query.filter(Modelo.url == url).first()
+        if not modelo:
+                return jsonify({"mensagem": "nenhum modelo encontrado com essa url"}), 403
+
+        
+        json_modelo = modelo.to_Json()
+
+        return jsonify({"modelo encontrado": json_modelo}), 200
 
 
 
+@app.route("/usuario/altera_modelo", methods=["POST"])
+def altera_modelo():
+        
+        data = request.json
 
+        url = data.get("url")
+
+        if not url:
+                return jsonify({"mensagem": "informe a url do modelo que deseja alterar"}), 400
+
+        modelo = Modelo.query.filter(Modelo.url == url).first()
+
+        if not modelo:
+                return jsonify({"mensagem": "modelo não encontrado"}), 403
+
+        nova_url = data.get("nova_url")
+        novo_nome = data.get("nome")
+        nova_desc = data.get("desc")
+        
+        if nova_url:
+                modelo.url = nova_url
+
+        if novo_nome:
+                modelo.nome = novo_nome
+        
+        if nova_desc:
+                modelo.descricao = nova_desc
+
+        try:
+                db.session.commit()
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "não foi possível submeter as mudanças", "causa": str(e)}), 400
+        
+        return jsonify({"mensagem": "alterações salvas"}), 200
+
+
+
+@app.route("/usuario/remove_modelo", methods=["POST"])
+def remove_modelo():
+
+        url = request.json.get("url")
+
+        if not url:
+                return jsonify({"mensagem": "informe o url do modelo"}), 400
+
+        modelo = Modelo.query.filter(Modelo.url == url).first()
+
+        if not modelo:
+                return jsonify({"mensagem": "nenhum modelo com essa url encontrado"}), 403
+
+        
+        try:
+                db.session.delete(modelo)
+                db.session.commit()
+        except Exception as e:
+                db.session.rollback()
+                return jsonify({"mensagem": "não foi possível deletar seu modelo", "causa": str(e)}), 400
+
+
+        return jsonify({"mensagem": "modelo deletado"}), 200
+
+       
+
+# aqui tá normal 
 if __name__ == "__main__":
         
         # toda vez que rodar, cria as se precisar, se precisar 
