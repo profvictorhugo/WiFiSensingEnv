@@ -21,10 +21,10 @@ body {
   );
 }
 
-.cartao-login {
+.cartao-cadastro {
   background-color: rgba(34, 73, 98, 0.85);
   height: 31rem;
-  width: 23rem;
+  width: 55rem;
   border-radius: 7px;
   box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.3),
     inset 0 1px 10px rgba(0, 0, 0, 0.2);
@@ -36,25 +36,50 @@ body {
 }
 
 .logo {
-  margin-top: 10px;
+  margin-top: 1px;
   display: flex;
   flex-direction: column;
 }
 
 .logo img {
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.6rem;
   max-height: 80px;
 }
 
-.email-senha {
+.botao-cadastro {
+  background-color: rgba(119, 236, 216, 0.76);
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 1rem;
+  font-weight: 550;
+  border: none;
+  border-radius: 5px;
+  margin-top: 50px;
+  padding: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Inter", sans-serif;
+}
+
+.botao-cadastro:hover {
+  background-color: rgba(104, 217, 197, 0.76);
+}
+
+.nome-email-cadastro {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 8rem;
   align-items: center;
   border-radius: 5px;
   padding: 10px;
   position: relative;
 }
 
-.email-senha input {
+.nome-email-cadastro input,
+.senha-confirmar-cadastro input {
   border: none;
   outline: none;
   background: rgba(34, 73, 98, 0.85);
@@ -62,7 +87,8 @@ body {
   padding: 6px;
   text-align: center;
   color: rgba(255, 255, 255, 0.2);
-  width: 100%;
+  width: 80%;
+  height: 2.2rem;
   font-size: 1rem;
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
   font-family: "Inter", sans-serif;
@@ -70,63 +96,30 @@ body {
   padding-right: 40px;
 }
 
-.email-senha .icon {
-  position: absolute;
-  left: 17px;
-  bottom: 9px;
-}
-
-.botao-login {
-  background-color: rgba(119, 236, 216, 0.76);
-  color: rgba(255, 255, 255, 0.56);
-  font-size: 1rem;
-  font-weight: 550;
-  border: none;
+.senha-confirmar-cadastro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 8rem;
+  align-items: center;
   border-radius: 5px;
-  margin-top: 20px;
   padding: 10px;
-  width: 70%;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: "Inter", sans-serif;
+  position: relative;
 }
 
-.botao-login:hover {
-  background-color: rgba(104, 217, 197, 0.76);
-}
-
-.esqueceu-senha {
-  color: rgba(129, 255, 230, 0.47);
-  font-size: 0.9rem;
-  text-decoration: underline;
-  display: block;
-  font-family: "Inter", sans-serif;
-
-  margin-top: 2.3rem;
-}
-
-.esqueceu-senha:hover,
-.cadastro:hover {
-  text-decoration: underline;
-  color: rgba(255, 255, 255, 0.486);
-}
-
-.cadastro {
-  color: rgba(129, 255, 230, 0.47);
-  font-size: 0.9rem;
-  text-decoration: underline;
-  margin: left 10rem;
-  font-family: "Inter", sans-serif;
-
+.formulario-cadastro {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
   margin-top: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.usuario-novo {
-  color: rgba(129, 255, 230, 0.47);
-  font-size: 0.9rem;
-  text-decoration: none;
-  font-family: "Inter", sans-serif;
-
-  margin-top: 1rem;
+.barrinha-verde {
+  background-color: rgba(119, 236, 216, 0.76);
+  height: 130%;
+  width: 0.1rem;
+  border-radius: 5px;
+  margin-top: -0.8rem;
 }

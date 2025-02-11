@@ -6,7 +6,7 @@ import lockClosed from "../../assets/lock-closed.svg";
 
 const Login = () => {
   return (
-    <div className="cartao">
+    <div className="cartao-login">
       <div className="logo">
         <img src={logo} alt="Logo" />
         <img src={sensingFI} alt="SensingFI" />
@@ -16,16 +16,16 @@ const Login = () => {
           <span className="icon">
             <img src={userCircle} alt="User Icon" />
           </span>
-          <input type="email" name="email" placeholder="e-mail" />
+          <input type="email" name="email" placeholder="E-mail" />
         </div>
         <div className="email-senha">
           <span className="icon">
             <img src={lockClosed} alt="Lock Icon" />
           </span>
-          <input type="password" name="senha" placeholder="senha" />
+          <input type="password" name="senha" placeholder="Senha" />
         </div>
         <div>
-          <button type="submit" className="botao">
+          <button type="submit" className="botao-login">
             Entrar
           </button>
         </div>
