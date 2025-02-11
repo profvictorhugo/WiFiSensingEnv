@@ -99,14 +99,34 @@ body {
 .esqueceu-senha {
   color: rgba(129, 255, 230, 0.47);
   font-size: 0.9rem;
-  text-decoration: none;
+  text-decoration: underline;
   display: block;
   font-family: "Inter", sans-serif;
 
-  margin-top: 3rem;
+  margin-top: 2.3rem;
 }
 
-.esqueceu-senha:hover {
+.esqueceu-senha:hover,
+.cadastro:hover {
   text-decoration: underline;
-  color: rgba(129, 255, 230, 0.76);
+  color: rgba(255, 255, 255, 0.486);
+}
+
+.cadastro {
+  color: rgba(129, 255, 230, 0.47);
+  font-size: 0.9rem;
+  text-decoration: underline;
+  margin: left 10rem;
+  font-family: "Inter", sans-serif;
+
+  margin-top: 1rem;
+}
+
+.usuario-novo {
+  color: rgba(129, 255, 230, 0.47);
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-family: "Inter", sans-serif;
+
+  margin-top: 1rem;
 }

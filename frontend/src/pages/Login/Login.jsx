@@ -29,6 +29,12 @@ const Login = () => {
             Entrar
           </button>
         </div>
+        <div>
+          <span className="usuario-novo">Usuário novo? </span>
+          <a href="/cadastro" className="cadastro">
+            Cadastre-se
+          </a>
+        </div>
       </form>
       <div className="esqueceu-senha">
         <a href="#" className="esqueceu-senha">
