@@ -1,6 +1,10 @@
+import os
+import subprocess
+import json
 from flask import request, jsonify
-from config import app, db
-from tabelas import Usuario, Dispositivo, Dataset, Modelo
+from scripts_db.config import app, db
+from scripts_db.tabelas import Usuario, Dispositivo, Dataset, Modelo
+
 
 # routes para manipulação com usuário
 @app.route("/login", methods=['POST'])
@@ -444,6 +448,38 @@ def remove_modelo():
         return jsonify({"mensagem": "modelo deletado"}), 200
 
        
+# route para pegar amostras e salvar elas
+@app.route("/usuario/coleta_amostra", methods=['POST'])
+def coletar_amostra():
+        
+        data = request.get_json()
+
+        n = str(data.get('n'))
+        p = data.get('p')
+        f = data.get('f')
+
+        if n.strip() == "" or p.strip() == "" or f.strip() == "":
+                return jsonify({'erro': 'Parâmetros n, p e f são obrigatórios'}), 400
+
+        try:
+                # caso tenha que mudar o caminho ou o nome do script muda aqui que facilita
+                caminho_codigo = os.path.join(os.path.dirname(__file__), 'scripts', 'script_salvar.py')
+
+                comando = ['python', caminho_codigo, '-n', n, '-p', p, '-f', f]
+
+                resultado = subprocess.run(comando, capture_output=True, text=True)
+
+                if resultado.returncode != 0:
+                        return jsonify({'erro': resultado.stderr.strip()}), 500
+
+                saida = json.loads(resultado.stdout.strip())
+                return jsonify(saida), 200
+
+        except Exception as e:
+                return jsonify({'erro': str(e)}), 500
+
+
+
 if __name__ == "__main__":
          
         with app.app_context():
