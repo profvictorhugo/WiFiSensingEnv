@@ -104,7 +104,12 @@ Pra fazer o mesmo com o Windows, rode o programa: `python -m venv nome_que_quise
 
 Para ativar ele, rode: `.\nome_do_ambiente\Scripts\activate`
 
-Com ele ativo, instale o flask: `pip3 install Flask`
+Com ele ativo:  
+
+Instale o flask: `pip3 install Flask`  
+Instale o flask_sqlalchemy: `pip3 install flask-sqlalchemy`  
+Instale o flask_cors: `pip3 install flask-cors`
+
 
 Pra desativar o ambiente, rode no terminal: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
 
