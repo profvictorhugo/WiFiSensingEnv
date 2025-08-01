@@ -80,6 +80,8 @@ pip --version
 Com o python instalado devidamente, podemos instalar o flask
 ```
 pip3 install flask
+pip3 install flask-sqlalchemy
+pip3 install flask-cors
 ```
 ---
 ## Ambiente Virtual
@@ -94,7 +96,7 @@ Agora, vá no diretório que você quer usar e execute o comando: `python3 -m ve
 
 E para ativar ele rode: `source nome_do_ambiente/bin/activate`
 
-Com ele ativo, podemos rodar o código: `pip3 install Flask`
+Com ele ativo, podemos rodar o código: `pip3 install flask flask-sqlalchemy flask-cors`
 
 Pra desativar o ambiente é só rodar: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
 
