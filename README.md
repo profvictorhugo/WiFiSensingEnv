@@ -74,10 +74,21 @@ Com o Mac, usaremos o comando do Homebrew, segue o código de instalação dele
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Com o comando funcionando, vamos instalar o python
+Com o comando funcionando, vamos instalar o python e as dependencias necessárias
 ```
+brew update
 brew install python
+pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql
 ```
+
+Temos o python, precisamos agora de um local para rodar nosso mysql, usaremos o docker desktop, [esse](https://www.youtube.com/watch?v=18_1yMvZlqY) é o vídeo para instalação dele no mac, ele tem instalador então fica mais fácil.  
+
+Com ele baixado, abra ele, a tela será parecida com essa  
+
+![docker-running](images-readme/docker-on-mac.png)  
+
+Note na parte debaixo na esquerda, a logo do docker deve estar verde, com isso seu docker está rodando perfeitamente.
+
 
 ---
 ### Windows
