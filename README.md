@@ -5,6 +5,7 @@ Plataforma SensingFI
 
 - Ter o python 3.0.0 pra cima instalado em seu computador
 - Ter a biblioteca Flask do python instalada
+- Ter o docker para poder rodar o banco de dados localmente
 
 - [Estou usando Windows](#Windows)
 - [Estou usando Linux](#Linux)
@@ -14,11 +15,30 @@ Plataforma SensingFI
 
 ## Passos de instalação
 ### Linux 
-Rode o programa abaixo pra conseguir instalar o python
+Rode o programa abaixo pra conseguir instalar o python (siga a ordem colocada para evitar erros)
 ```
 sudo apt update
 sudo apt install python3 python3-pip
+pip3 install Flask Flask-SQLAlchemy Flask-Cors
 ```
+
+Agora com o python instalado, [esse](https://docs.docker.com/desktop/setup/install/linux/#where-to-go-next) é o site para você conseguir baixar o docker desktop na sua distro  
+
+É com ele que vamos rodar nosso mysql para o framework, deixe seu docker desktop aberto e sempre veja se a engine dele está rodando, para isso, é só deixar ele aberto e ver se não aconteceu nenhum tipo de erro como "engine stoped".    
+
+Com ele instalado e aberto/rodando, abra um terminal externo e rode o comando:  
+```
+docker run --name wifisensing-mysql \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=wifisensing \
+  -p 3306:3306 \
+  -d mysql:8.0 \
+  --default-authentication-plugin=mysql_native_password
+```
+
+Esse comando é a criação do banco de dados do mysql para funcionar o framework  
+
+Dentro da pasta "backend", rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)
 
 ---
 ### macOS
