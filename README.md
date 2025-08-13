@@ -61,7 +61,7 @@ Rode `mysql -u root -p` e se pedir uma senha ela é "root" (é o seu banco de da
 
 ![mysql-on-terminal](images-readme/mysql-terminal1.png)  
 
-Isso mostra que você entrou no mysql, agora rode dois comandos: `show databases;`, `use wifisensing;` e `show tables;`, aparecerá assim para você
+Isso mostra que você entrou no mysql, agora rode os comandos: `show databases;`, `use wifisensing;` e `show tables;`, aparecerá assim para você
 
 ![mysql-tables-on-terminal](images-readme/mysql-terminal2.png)  
 
@@ -87,8 +87,46 @@ Com ele baixado, abra ele, a tela será parecida com essa
 
 ![docker-running](images-readme/docker-mac.png)  
 
-Note na parte debaixo na esquerda, a logo do docker deve estar verde, com isso seu docker está rodando perfeitamente.
+Note na parte debaixo na esquerda, a logo do docker deve estar verde, com isso seu docker está rodando perfeitamente.  
 
+Agora que temos o docker, abra um terminal externo e rode esse comando  
+```
+docker run --name wifisensing-mysql \
+  -e MYSQL_ROOT_PASSWORD=root \
+  -e MYSQL_DATABASE=wifisensing \
+  -p 3306:3306 \
+  -d mysql:8.0 \
+  --default-authentication-plugin=mysql_native_password
+```
+
+Depois de tudo rodar, volte para o docker desktop, deverá aparecer isso para você nele  
+
+![db-on-docker](images-readme/bdconfigurado-docker.png)  
+Caso aquele quadrado esteja com um triângulo, aperte nele para que o mysql rode  
+
+Nosso mysql está rodando no docker  
+
+Agora, vá para a pasta "backend" no terminal e rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2, você também pode rodar apenas python se estiver apenas o python 3.x.x instalado, como é o meu caso)  
+
+O terminal deverá mostrar isso  
+
+![backend-running](images-readme/backend-running.png)  
+
+Agora nosso backend está rodando, para ver as tabelas, usaremos o terminal por enquanto.  
+Abra um terminal e rode isso  
+```
+docker exec -it wifisensing-mysql bash
+mysql -u root -p
+```
+Caso ele peça uma senha, a senha é "root" pois ele roda no seu computador, o terminal deve mostrar isso  
+
+![mysql-on-terminal](images-readme/mysql-terminal1.png)  
+
+Isso mostra que você entrou no mysql, agora rode os comandos: `show databases;`, `use wifisensing;` e `show tables;`, aparecerá assim para você
+
+![mysql-tables-on-terminal](images-readme/mysql-terminal2.png)  
+
+E parabéns, seu backend está rodando :D
 
 ---
 ### Windows
