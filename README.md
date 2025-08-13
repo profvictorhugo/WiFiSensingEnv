@@ -24,7 +24,13 @@ pip3 install Flask Flask-SQLAlchemy Flask-Cors
 
 Agora com o python instalado, [esse](https://docs.docker.com/desktop/setup/install/linux/#where-to-go-next) é o site para você conseguir baixar o docker desktop na sua distro  
 
-É com ele que vamos rodar nosso mysql para o framework, deixe seu docker desktop aberto e sempre veja se a engine dele está rodando, para isso, é só deixar ele aberto e ver se não aconteceu nenhum tipo de erro como "engine stoped".    
+É com ele que vamos rodar nosso mysql para o framework, deixe seu docker desktop aberto e sempre veja se a engine dele está rodando, para isso, é só deixar ele aberto e ver se não aconteceu nenhum tipo de erro como "engine stoped".  
+
+O docker vai estar parecido com isso:  
+
+![docker-running](images-readme/docker-running.png)  
+
+Perceba que na parte de baixo, na esquerda está escrito "Engine running", se estiver desse jeito no seu, o docker está rodando.   
 
 Com ele instalado e aberto/rodando, abra um terminal externo e rode o comando:  
 ```
@@ -36,9 +42,12 @@ docker run --name wifisensing-mysql \
   --default-authentication-plugin=mysql_native_password
 ```
 
-Esse comando é a criação do banco de dados do mysql para funcionar o framework  
+Esse comando é a criação do banco de dados do mysql para funcionar o framework, execute ele.  
 
-Dentro da pasta "backend", rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)
+Dentro da pasta "backend", rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)  
+
+deverá aparecer assim para você no seu terminal:  
+
 
 ---
 ### macOS
