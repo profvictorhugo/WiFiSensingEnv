@@ -42,11 +42,19 @@ docker run --name wifisensing-mysql \
   --default-authentication-plugin=mysql_native_password
 ```
 
-Esse comando é a criação do banco de dados do mysql para funcionar o framework, execute ele.  
+Após executar ele, abra o seu docker novamente, nele aparecerá isso:  
 
-Dentro da pasta "backend", rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)  
+![db-configurado](images-readme/bdconfigurado-docker.png)  
+
+Seu banco de dados está rodando :D
+
+---  
+
+Com o seu banco de dados rodando, vá para a pasta "backend", abra um terminal novo e rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)  
 
 deverá aparecer assim para você no seu terminal:  
+
+
 
 
 ---
