@@ -19,7 +19,7 @@ Rode o programa abaixo pra conseguir instalar o python (siga a ordem colocada pa
 ```
 sudo apt update
 sudo apt install python3 python3-pip
-pip3 install Flask Flask-SQLAlchemy Flask-Cors
+pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql
 ```
 
 Agora com o python instalado, [esse](https://docs.docker.com/desktop/setup/install/linux/#where-to-go-next) é o site para você conseguir baixar o docker desktop na sua distro  
