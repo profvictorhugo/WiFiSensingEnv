@@ -50,12 +50,14 @@ Seu banco de dados está rodando :D
 
 ---  
 
-Com o seu banco de dados rodando, vá para a pasta "backend", abra um terminal novo e rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2)  
+Com o seu banco de dados rodando, vá para a pasta "backend", abra um terminal novo e rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2, você também pode rodar apenas python se estiver apenas o python 3.x.x instalado, como é o meu caso)  
 
 deverá aparecer assim para você no seu terminal:  
 
+![backend-running](images-readme/backend-running.png)  
 
-
+Para conseguir ver as tabelas criadas e acessar o que foi salvo, abra um terminal por fora e rode `docker exec -it wifisensing-mysql bash`  
+Rode `mysql -u root -p` e se pedir uma senha ela é "root" (é o seu banco de dados no seu computador)
 
 ---
 ### macOS
