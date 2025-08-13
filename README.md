@@ -130,24 +130,8 @@ E parabéns, seu backend está rodando :D
 
 ---
 ### Windows
-Pode ser baixado de 2 formas: 
-- Usar o [site oficial](https://www.python.org/downloads/)
-- Usar o terminal
 
-#### Usando o site
-Se você escolheu baixar pelo site, no site vai ter um botão amarelo falando baixar o python mais recente, após baixar, ao abrir a janela do programa, marque as caixas que falam sobre usar privilégios de administrador e de adicionar ao PATH do sistema e espere baixar, e estará tudo pronto
-
-#### Usando o terminal
-Agora, se escolheu o terminal, vamos precisar do "Chocolatey", pra isso, abra o PowerShell como administrador e coloque o código:
-```
-Set-ExecutionPolicy Bypass -Scope Process -Force; `
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
-iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-```
-Pra garantir se instalou rode no terminal:  `choco --version`
-
-Com tudo instalado, podemos baixar o python 3 com: `choco install python -y`
-Depois, pra garantir que o python está instalado rode: `python --version`
+Será necessário baixar o python, use o [site oficial](https://www.python.org/downloads/) e baixe, aparecerá um botão amarelo falando baixar o python mais recente, após baixar, ao abrir a janela do programa, marque as caixas que falam sobre usar privilégios de administrador e de adicionar ao PATH do sistema e espere baixar, e estará tudo pronto  
 
 Pra garantir que o python está no PATH do sistema execute:
 ```
@@ -169,47 +153,47 @@ C:\Python39\
 ```
 python --version
 pip --version
+```  
+
+Com o python instalado, rode o comando `pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql` para baixar as dependências necessárias para rodar o framework.  
+
+Com o python devidamente configurado, precisaremos de um lugar para podermos rodar nosso mysql, [baixe](https://docs.docker.com/desktop/setup/install/windows-install) o docker para o seu windows com o instalador dele.  
+
+Ao abrir ele, seu docker estará parecido com esse  
+
+![docker-desktop](images-readme/docker-running.png)  
+
+Note na parte debaixo na esquerda, o seu docker deve estar mostrando "Engine running", ele vai demorar um pouco para carregar mas ele deve aparecer esse "Engine running", com isso seu docker estará rodando  
+
+Abra um terminal com o docker ainda ligado e rode  
+
+```docker run --name wifisensing-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wifisensing -p 3306:3306 -d mysql:8.0 --default-authentication-plugin=mysql_native_password```  
+
+Depois de tudo rodar, volte para o docker desktop, deverá aparecer isso para você nele  
+
+![db-on-docker](images-readme/bdconfigurado-docker.png)  
+
+Nosso mysql está rodando no docker  
+
+Agora, vá para a pasta "backend" no terminal e rode `python3 main.py` ou `python3 .\main.py` (python3 porque as vezes só python aponta para python2, você também pode rodar apenas python se estiver apenas o python 3.x.x instalado, como é o meu caso)  
+
+O terminal deverá mostrar isso  
+
+![backend-running](images-readme/backend-running.png)  
+
+Agora nosso backend está rodando, para ver as tabelas, usaremos o terminal por enquanto.  
+Abra um terminal e rode isso  
 ```
-
----
-## Instalando o Flask
-Com o python instalado devidamente, podemos instalar o flask
+docker exec -it wifisensing-mysql bash
+mysql -u root -p
 ```
-pip3 install flask
-pip3 install flask-sqlalchemy
-pip3 install flask-cors
-```
----
-## Ambiente Virtual
-(Certifique de ter instalado o python da forma que foi mostrada)
+Caso ele peça uma senha, a senha é "root" pois ele roda no seu computador, o terminal deve mostrar isso  
 
-Caso prefira instalar as coisas em um ambiente virtual, segue os passos
+![mysql-on-terminal](images-readme/mysql-terminal1.png)  
 
-### Linux/macOS
-Precisaremos usar o comando "venv", pra baixar ele rode: `sudo apt install python3-venv`
+Isso mostra que você entrou no mysql, agora rode os comandos: `show databases;`, `use wifisensing;` e `show tables;`, aparecerá assim para você
 
-Agora, vá no diretório que você quer usar e execute o comando: `python3 -m venv nome_que_quiser_pro_ambiente`
+![mysql-tables-on-terminal](images-readme/mysql-terminal2.png)  
 
-E para ativar ele rode: `source nome_do_ambiente/bin/activate`
-
-Com ele ativo, podemos rodar o código: `pip3 install flask flask-sqlalchemy flask-cors`
-
-Pra desativar o ambiente é só rodar: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
-
----
-### Windows
-Pra fazer o mesmo com o Windows, rode o programa: `python -m venv nome_que_quiser_pro_ambiente`
-
-Para ativar ele, rode: `.\nome_do_ambiente\Scripts\activate`
-
-Com ele ativo:  
-
-Instale o flask: `pip3 install Flask`  
-Instale o flask_sqlalchemy: `pip3 install flask-sqlalchemy`  
-Instale o flask_cors: `pip3 install flask-cors`
-
-
-Pra desativar o ambiente, rode no terminal: `deactivate` (ele só fecha o que você está no momento, não afeta outros)
-
-
+E parabéns, seu backend está rodando :D
 
