@@ -85,7 +85,7 @@ Temos o python, precisamos agora de um local para rodar nosso mysql, usaremos o 
 
 Com ele baixado, abra ele, a tela será parecida com essa  
 
-![docker-running](images-readme/docker-on-mac.png)  
+![docker-running](images-readme/docker-mac.png)  
 
 Note na parte debaixo na esquerda, a logo do docker deve estar verde, com isso seu docker está rodando perfeitamente.
 
