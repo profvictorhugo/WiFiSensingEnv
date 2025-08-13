@@ -57,7 +57,15 @@ deverá aparecer assim para você no seu terminal:
 ![backend-running](images-readme/backend-running.png)  
 
 Para conseguir ver as tabelas criadas e acessar o que foi salvo, abra um terminal por fora e rode `docker exec -it wifisensing-mysql bash`  
-Rode `mysql -u root -p` e se pedir uma senha ela é "root" (é o seu banco de dados no seu computador)
+Rode `mysql -u root -p` e se pedir uma senha ela é "root" (é o seu banco de dados no seu computador), aparecerá algo assim no seu terminal  
+
+![mysql-on-terminal](images-readme/mysql-terminal1.png)  
+
+Isso mostra que você entrou no mysql, agora rode dois comandos: `show databases;`, `use wifisensing;` e `show tables;`, aparecerá assim para você
+
+![mysql-tables-on-terminal](images-readme/mysql-terminal2.png)  
+
+E parabéns, seu backend está rodando :D
 
 ---
 ### macOS
