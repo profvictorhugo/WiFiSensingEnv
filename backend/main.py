@@ -2,112 +2,62 @@ import os
 import subprocess
 import json
 from flask import request, jsonify
-from scripts_db.config import app, db
-from scripts_db.tabelas import Usuario, Dispositivo, Dataset, Modelo
+from App.config import app, db
+from App.Model.models import Usuario, Dispositivo, Dataset, Modelo
+from App.Service.Usuario_Service import UsuarioService
 
 
 # routes para manipulação com usuário
 @app.route("/login", methods=['POST'])
 def logar_usuario():
 
-        data = request.json
+    data  = request.json
+    email = data.get("email")
+    senha = data.get("senha")
 
-        email = data.get("email")
-        senha = data.get("senha")
-        if not email or not senha:
-                return jsonify({"mensagem": "informe o email e a senha"}), 404
-
-        usuario = Usuario.query.filter(Usuario.email == email, Usuario.senha == senha).first()
-        if not usuario:
-                return jsonify({"mensagem": "nenhum usuáario encontrado"}), 400
-
-        return jsonify({"mensagem": "logado"}), 201
-
+    response, status = UsuarioService.login_usuario(email, senha)
+    return jsonify({"mensagem": response}), status
 
 @app.route("/cadastra_usuario", methods=['POST'])
 def cadastra_usuario():
 
-        data = request.json
+    data  = request.json
+    email = data.get("email")
+    senha = data.get("senha")
 
-        email = data.get("email")
-        senha = data.get("senha")
-        if not email or not senha:
-                return jsonify({"mensagem": "preencha o email e a senha"}), 400
-        
-        novo_usuario = Usuario(email = email, senha = senha)
-
-        try:
-                db.session.add(novo_usuario)
-                db.session.commit()
-                
-        except Exception as e:
-                return jsonify({"messagem": str(e)}), 400
-
-        return jsonify({"mensagem": "Usuário criado"}), 201
+    response, status = UsuarioService.cadastrar_usuario(email, senha)
+    return jsonify({"mensagem": response}), status
 
 
 @app.route("/consulta_usuario", methods=['GET'])
 def consulta_usuario():
 
-        data = request.json
+    data  = request.json
+    email = data.get("email")
 
-        email = data.get("email")
-        if not email:
-                return jsonify({"mensagem": "nenhum email passado"}), 400
-
-        usuario = Usuario.query.filter(Usuario.email == email).first()
-        if not usuario:
-                return jsonify({"mensagem": "nenhum usuário encontrado"}), 400
-
-        json_usuario = usuario.to_Json()
-        return jsonify({"usuáro encontrado": json_usuario}), 201
+    response, status = UsuarioService.consulta_usuario(email)
+    return jsonify({"mensagem": response}), status
 
 
 @app.route("/altera_usuario", methods=["PATCH"])
 def altera_usuario():
 
-        data = request.json
-        
-        email = data.get("email")
-        if not email:
-                return jsonify({"mensagem": "informe o email"}), 400
+    data       = request.json
+    email      = data.get("email")
+    nova_senha = data.get("nova_senha")
 
-        usuario = Usuario.query.filter(Usuario.email == email).first()
-        if not usuario:
-                return jsonify({"mensagem": "ninguém encontrado com esse email"}), 404
-
-        nova_senha = data.get("nova_senha")
-        if not nova_senha:
-                return jsonify({"mensagem": "nenhuma senha passada"}), 401 
-
-        usuario.senha = nova_senha
-        db.session.commit()
-
-        return jsonify({"mensagem": "senha alterada"}), 200
+    response, status = UsuarioService.altera_usuario(email, nova_senha)
+    return jsonify({"mensagem": response}), status
 
 
 @app.route("/remove_usuario", methods=["DELETE"])
 def remove_usuario():
         
-        data = request.json
-        
-        email = data.get("email")        
-        if not email:
-                return jsonify({"mensagem": "informe o email"}), 400
-        
-        usuario = Usuario.query.filter(Usuario.email == email).first()
-        if not usuario:
-                return jsonify({"mensagem": "usuário não encontrado"}), 404     
-        
-        try:
-                db.session.delete(usuario)
-                db.session.commit()
-        
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "não foi possível tirar do banco de dados", "causa": str(e)}), 400
-        
-        return jsonify({"mensagem": "usuário removido"}), 200
+    data  = request.json
+    email = data.get("email")
+
+    response, status = UsuarioService.remove_usuario(email)
+    return jsonify({"mensagem": response}), status
 
 
 # routes para manipulação de dispositivos
@@ -176,7 +126,7 @@ def altera_dispositivo():
 
         except Exception as e:
                 db.session.rollback()
-                return jsonify({"mensagem": "deu um problema pra alterar no bd"}), 400                
+                return jsonify({"mensagem": f"deu um problema pra alterar no bd:: {str(e)}"}), 400
 
         return jsonify({"mensagem": "dados alterados"}), 200
 
@@ -463,7 +413,7 @@ def coletar_amostra():
 
         try:
                 # caso tenha que mudar o caminho ou o nome do script muda aqui que facilita
-                caminho_codigo = os.path.join(os.path.dirname(__file__), 'scripts', 'script_salvar.py')
+                caminho_codigo = os.path.join(os.path.dirname(__file__), 'Scripts', 'script_salvar.py')
 
                 comando = ['python', caminho_codigo, '-n', n, '-p', p, '-f', f]
 
