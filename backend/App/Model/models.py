@@ -1,4 +1,4 @@
-from scripts_db.config import db
+from app.config import db
 
 class Usuario(db.Model):
         id = db.Column(db.Integer, primary_key=True)
