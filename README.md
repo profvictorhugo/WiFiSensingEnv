@@ -19,7 +19,7 @@ Rode o programa abaixo pra conseguir instalar o python (siga a ordem colocada pa
 ```
 sudo apt update
 sudo apt install python3 python3-pip
-pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql
+pip3 install -r requirements.txt
 ```
 
 Agora com o python instalado, [esse](https://docs.docker.com/desktop/setup/install/linux/#where-to-go-next) é o site para você conseguir baixar o docker desktop na sua distro  
@@ -34,12 +34,7 @@ Perceba que na parte de baixo, na esquerda está escrito "Engine running", se es
 
 Com ele instalado e aberto/rodando, abra um terminal externo e rode o comando:  
 ```
-docker run --name wifisensing-mysql \
-  -e MYSQL_ROOT_PASSWORD=root \
-  -e MYSQL_DATABASE=wifisensing \
-  -p 3306:3306 \
-  -d mysql:8.0 \
-  --default-authentication-plugin=mysql_native_password
+docker-compose up -d
 ```
 
 Após executar ele, abra o seu docker novamente, nele aparecerá isso:  
@@ -78,7 +73,7 @@ Com o comando funcionando, vamos instalar o python e as dependencias necessária
 ```
 brew update
 brew install python
-pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql
+pip3 install -r requirements.txt
 ```
 
 Temos o python, precisamos agora de um local para rodar nosso mysql, usaremos o docker desktop, [esse](https://www.youtube.com/watch?v=18_1yMvZlqY) é o vídeo para instalação dele no mac, ele tem instalador então fica mais fácil.  
@@ -91,12 +86,7 @@ Note na parte debaixo na esquerda, a logo do docker deve estar verde, com isso s
 
 Agora que temos o docker, abra um terminal externo e rode esse comando  
 ```
-docker run --name wifisensing-mysql \
-  -e MYSQL_ROOT_PASSWORD=root \
-  -e MYSQL_DATABASE=wifisensing \
-  -p 3306:3306 \
-  -d mysql:8.0 \
-  --default-authentication-plugin=mysql_native_password
+docker-compose up -d
 ```
 
 Depois de tudo rodar, volte para o docker desktop, deverá aparecer isso para você nele  
@@ -155,7 +145,7 @@ python --version
 pip --version
 ```  
 
-Com o python instalado, rode o comando `pip3 install Flask Flask-SQLAlchemy Flask-Cors pymysql` para baixar as dependências necessárias para rodar o framework.  
+Com o python instalado, rode o comando `pip3 install -r requirements.txt` para baixar as dependências necessárias para rodar o framework.  
 
 Com o python devidamente configurado, precisaremos de um lugar para podermos rodar nosso mysql, [baixe](https://docs.docker.com/desktop/setup/install/windows-install) o docker para o seu windows com o instalador dele.  
 
@@ -167,7 +157,9 @@ Note na parte debaixo na esquerda, o seu docker deve estar mostrando "Engine run
 
 Abra um terminal com o docker ainda ligado e rode  
 
-```docker run --name wifisensing-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wifisensing -p 3306:3306 -d mysql:8.0 --default-authentication-plugin=mysql_native_password```  
+```
+docker-compose up -d
+```  
 
 Depois de tudo rodar, volte para o docker desktop, deverá aparecer isso para você nele  
 
