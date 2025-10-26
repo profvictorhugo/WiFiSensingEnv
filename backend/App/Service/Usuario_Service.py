@@ -4,7 +4,7 @@ from App.Model.models import Usuario
 class UsuarioService:
 
     @staticmethod
-    def login_usuario(email: str, senha: str):
+    def login(email: str, senha: str):
 
         if not email or not senha:
             return {"mensagem": "informe o email e a senha"}, 400
@@ -17,7 +17,7 @@ class UsuarioService:
 
 
     @staticmethod
-    def cadastrar_usuario(email: str, senha: str):
+    def cadastra(email: str, senha: str):
 
         if not email or not senha:
             return {"mensagem": "preencha o email e a senha"}, 400
@@ -34,14 +34,13 @@ class UsuarioService:
             return {"erro": f"não foi possível cadastrar usuário :: {str(e)}"}, 400
 
 
-
     @staticmethod
-    def consulta_usuario(email: str):
+    def consulta(id: int):
 
-        if not email:
+        if not id:
             return {"mensagem": "nenhum email passado"}, 400
 
-        usuario = Usuario.query.filter(Usuario.email == email).first()
+        usuario = Usuario.query.filter(Usuario.id == id).first()
 
         if not usuario:
             return {"mensagem": "nenhum usuário encontrado"}, 400
@@ -51,15 +50,24 @@ class UsuarioService:
 
 
     @staticmethod
-    def altera_usuario(email: str, nova_senha: str):
+    def consulta_todos():
 
-        if not email:
-            return {"mensagem": "informe o email"}, 400
+        usuarios = Usuario.query.all()
+        json_usuarios = [user.to_Json() for user in usuarios]
+
+        return {"usuarios": json_usuarios}, 200
+
+
+    @staticmethod
+    def altera(id: int, nova_senha: str):
+
+        if not id:
+            return {"mensagem": "informe o id"}, 400
 
         if not nova_senha:
                 return {"mensagem": "nenhuma senha passada"}, 401
 
-        usuario = Usuario.query.filter(Usuario.email == email).first()
+        usuario = Usuario.query.filter(Usuario.id == id).first()
         if not usuario:
                 return {"mensagem": "ninguém encontrado com esse email"}, 404
 
@@ -74,12 +82,12 @@ class UsuarioService:
 
 
     @staticmethod
-    def remove_usuario(email: str):
+    def remove(id: int):
 
-        if not email:
+        if not id:
             return {"mensagem": "informe o email"}, 400
 
-        usuario = Usuario.query.filter(Usuario.email == email).first()
+        usuario = Usuario.query.filter(Usuario.id == id).first()
         if not usuario:
             return {"mensagem": "usuário não encontrado"}, 404
 
