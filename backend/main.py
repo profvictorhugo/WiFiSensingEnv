@@ -1,17 +1,20 @@
 import os
 import subprocess
 import json
+from http.client import responses
+
 from flask import request, jsonify
 from App.config import app, db
 from App.Model.models import Usuario, Dispositivo, Dataset, Modelo
 from App.Service.Usuario_Service import UsuarioService
+from App.Service.Dispositivo_Service import DispositivoService
 
-# fazer um atributo único como o id para encontrar melhor, por enquanto usarei id mesmo
+# qualquer coisa eu vou tentar mudar esse id para UUID, SE DER E PRECISAR
 # routes para manipulação com usuário
 @app.route("/login", methods=['POST'])
 def logar_usuario():
+    data = request.json
 
-    data  = request.json
     email = data.get("email")
     senha = data.get("senha")
 
@@ -21,8 +24,8 @@ def logar_usuario():
 
 @app.route("/usuarios", methods=['POST'])
 def cadastra_usuario():
+    data = request.json
 
-    data  = request.json
     email = data.get("email")
     senha = data.get("senha")
 
@@ -32,21 +35,18 @@ def cadastra_usuario():
 
 @app.route("/usuarios/<id>", methods=['GET'])
 def consulta_usuario(id: int):
-
     response, status = UsuarioService.consulta(id)
     return jsonify({"mensagem": response}), status
 
 
 @app.route("/usuarios", methods=['GET'])
 def consulta_usuarios():
-
     response, status = UsuarioService.consulta_todos()
     return jsonify({"mensagem": response}), status
 
 
 @app.route("/usuarios/<id>", methods=["PATCH"])
 def altera_usuario(id: int):
-
     nova_senha = request.json.get("nova_senha")
 
     response, status = UsuarioService.altera(id, nova_senha)
@@ -55,125 +55,56 @@ def altera_usuario(id: int):
 
 @app.route("/usuarios/<id>", methods=["DELETE"])
 def remove_usuario(id: int):
-
     response, status = UsuarioService.remove(id)
     return jsonify({"mensagem": response}), status
 
 
-# começar a mexer aqui
+# testar depois no insomnia
 # routes para manipulação de dispositivos
-@app.route("/usuario/cadastra_dispositivo", methods=["POST"])
+@app.route("/dispositivos", methods=["POST"])
 def cadastra_dispositivo():
+    data = request.json
 
-        data = request.json
+    nome      = data.get("nome")
+    descricao = data.get("descricao")
+    codigo    = data.get("codigo")
+    script    = data.get("script")
 
-        codigo_disp = data.get("codigo")
-        if not codigo_disp:
-                return jsonify({"mensagem": "informe o código para criação"}), 400
-
-        nome_dispo = data.get("nome")
-        desc_dispo = data.get("descrição")
-        script_dispo = data.get("script")
-
-        novo_dispositivo = Dispositivo(
-                nome = nome_dispo,
-                codigo = codigo_disp,
-                descricao = desc_dispo,
-                script = script_dispo
-        )
-
-        json_disp = novo_dispositivo.to_Json()
-
-        try:
-                db.session.add(novo_dispositivo)
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback() # desfaz o que tinha feito
-                return jsonify({"mensagem": f"não deu pra cadastrar no banco de dados: {str(e)}"}), 400
+    resopnse, status = DispositivoService.cadastra(nome, descricao, codigo, script)
+    return jsonify({"mensagem": resopnse}), status
 
 
-        return jsonify({"mensagem": "tudo criado", "dispositivo": json_disp}), 201
+@app.route("/dispositivos/<codigo>", methods=["PATCH"])
+def altera_dispositivo(codigo: str):
+    data = request.json
+
+    nome      = data.get("nome")
+    descricao = data.get("descricao")
+    script    = data.get("script")
+
+    response, status = DispositivoService.altera(codigo, nome, descricao, script)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/altera_dispositivo", methods=["PATCH"])
-def altera_dispositivo():
-        
-        data = request.json
-
-        codigo_disp = data.get("codigo")        
-        if not codigo_disp:
-                return jsonify({"mensagem": "informe o código do dispositivo"}), 400
-        
-        dispositivo = Dispositivo.query.filter(Dispositivo.codigo == codigo_disp).first()
-        if not dispositivo:
-                return jsonify({"mensagem": "esse código não consta no banco de dados"}), 403
-
-        novo_nome = data.get("nome")
-        nova_desc = data.get("descrição")
-        novo_script = data.get("script")
-
-        if novo_nome:
-                dispositivo.nome = novo_nome
-
-        if nova_desc:
-                dispositivo.descricao = nova_desc
-
-        if novo_script:
-                dispositivo.script_configuracao = novo_script
-
-        try:
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": f"deu um problema pra alterar no bd:: {str(e)}"}), 400
-
-        return jsonify({"mensagem": "dados alterados"}), 200
+@app.route("/dispositivo/<codigo>", methods=["DELETE"])
+def remove_dispositivo(codigo: str):
+    response, status = DispositivoService.remove(codigo)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/remove_dispositivo", methods=["DELETE"])
-def remove_dispositivo():
-
-        data = request.json
-
-        codigo = data.get("codigo")
-        if not codigo:
-                return jsonify({"mensagem": "nenhum código informado"}), 400
-
-        disp = Dispositivo.query.filter(Dispositivo.codigo == codigo).first()           
-        if not disp:
-                return jsonify({"mensagem": "dispositivo não encontrado"}), 403
-
-        try:
-                db.session.delete(disp)
-                db.session.commit()
-        
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "deu problema na hora de tirar do banco de dados", "causa": str(e)}), 400 
-
-        return jsonify({"mensagem": "dispositivo removido"}), 200
+@app.route("/ dispositivos/<codigo>", methods=["GET"])
+def consulta_dispositivo(codigo: str):
+    response, status = DispositivoService.consulta(codigo)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/consulta_dispositivo", methods=["GET"])
-def consulta_dispositivo():
-
-        data = request.json
-
-        codigo = data.get("codigo")
-        if not codigo:
-                return jsonify({"mensagem": "nenhum código passado"}), 400
-
-        disp = Dispositivo.query.filter(Dispositivo.codigo == codigo).first() 
-        if not disp:
-                return jsonify({"mensagem": "nenhum dispositivo encontrado"}), 403
-
-        json_disp = disp.to_Json()
-
-        return jsonify({"dispositivo": json_disp}), 200
+@app.route("/dispositivos", methods=["GET"])
+def consulta_dispositivos():
+    response, status = DispositivoService.consulta_todos()
+    return jsonify({"mensagem": response}), status
 
 
+# continuar aqui APÓS TESTAR O DE DISPOSITIVO
 # routes para manipulação de datasets
 @app.route("/usuario/cadastra_dataset", methods=["POST"])
 def cadastra_dataset():
