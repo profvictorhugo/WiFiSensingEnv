@@ -6,7 +6,7 @@ from App.config import app, db
 from App.Model.models import Usuario, Dispositivo, Dataset, Modelo
 from App.Service.Usuario_Service import UsuarioService
 
-
+# fazer um atributo único como o id para encontrar melhor, por enquanto usarei id mesmo
 # routes para manipulação com usuário
 @app.route("/login", methods=['POST'])
 def logar_usuario():
@@ -15,51 +15,52 @@ def logar_usuario():
     email = data.get("email")
     senha = data.get("senha")
 
-    response, status = UsuarioService.login_usuario(email, senha)
+    response, status = UsuarioService.login(email, senha)
     return jsonify({"mensagem": response}), status
 
-@app.route("/cadastra_usuario", methods=['POST'])
+
+@app.route("/usuarios", methods=['POST'])
 def cadastra_usuario():
 
     data  = request.json
     email = data.get("email")
     senha = data.get("senha")
 
-    response, status = UsuarioService.cadastrar_usuario(email, senha)
+    response, status = UsuarioService.cadastra(email, senha)
     return jsonify({"mensagem": response}), status
 
 
-@app.route("/consulta_usuario", methods=['GET'])
-def consulta_usuario():
+@app.route("/usuarios/<id>", methods=['GET'])
+def consulta_usuario(id: int):
 
-    data  = request.json
-    email = data.get("email")
-
-    response, status = UsuarioService.consulta_usuario(email)
+    response, status = UsuarioService.consulta(id)
     return jsonify({"mensagem": response}), status
 
 
-@app.route("/altera_usuario", methods=["PATCH"])
-def altera_usuario():
+@app.route("/usuarios", methods=['GET'])
+def consulta_usuarios():
 
-    data       = request.json
-    email      = data.get("email")
-    nova_senha = data.get("nova_senha")
-
-    response, status = UsuarioService.altera_usuario(email, nova_senha)
+    response, status = UsuarioService.consulta_todos()
     return jsonify({"mensagem": response}), status
 
 
-@app.route("/remove_usuario", methods=["DELETE"])
-def remove_usuario():
-        
-    data  = request.json
-    email = data.get("email")
+@app.route("/usuarios/<id>", methods=["PATCH"])
+def altera_usuario(id: int):
 
-    response, status = UsuarioService.remove_usuario(email)
+    nova_senha = request.json.get("nova_senha")
+
+    response, status = UsuarioService.altera(id, nova_senha)
     return jsonify({"mensagem": response}), status
 
 
+@app.route("/usuarios/<id>", methods=["DELETE"])
+def remove_usuario(id: int):
+
+    response, status = UsuarioService.remove(id)
+    return jsonify({"mensagem": response}), status
+
+
+# começar a mexer aqui
 # routes para manipulação de dispositivos
 @app.route("/usuario/cadastra_dispositivo", methods=["POST"])
 def cadastra_dispositivo():
@@ -412,7 +413,7 @@ def coletar_amostra():
                 return jsonify({'erro': 'Parâmetros n, p e f são obrigatórios'}), 400
 
         try:
-                # caso tenha que mudar o caminho ou o nome do script muda aqui que facilita
+                # caso tenha que mudar o caminho ou o nome do código muda aqui que facilita
                 caminho_codigo = os.path.join(os.path.dirname(__file__), 'Scripts', 'script_salvar.py')
 
                 comando = ['python', caminho_codigo, '-n', n, '-p', p, '-f', f]
