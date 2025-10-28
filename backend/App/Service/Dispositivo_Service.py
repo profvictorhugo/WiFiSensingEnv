@@ -16,12 +16,10 @@ class DispositivoService:
             script    = script
         )
 
-        json_disp = novo_dispositivo.to_Json()
-
         try:
             db.session.add(novo_dispositivo)
             db.session.commit()
-            return {"mensagem": "tudo criado", "dispositivo": json_disp}, 201
+            return {"mensagem": "dispositivo cadastrado"}, 201
 
         except Exception as e:
             db.session.rollback()
@@ -75,7 +73,7 @@ class DispositivoService:
 
         except Exception as e:
             db.session.rollback()
-            return {"mensagem": f"erro ao tirar do banco de dados :: {str(e)}"}, 400
+            return {"mensagem": f"erro ao deletar do banco de dados :: {str(e)}"}, 400
 
 
     @staticmethod
