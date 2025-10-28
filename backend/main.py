@@ -1,13 +1,15 @@
+import json
 import os
 import subprocess
-import json
-from http.client import responses
 
 from flask import request, jsonify
-from App.config import app, db
-from App.Model.models import Usuario, Dispositivo, Dataset, Modelo
-from App.Service.Usuario_Service import UsuarioService
+
+from App.Model.models import Usuario, Dataset, Modelo
 from App.Service.Dispositivo_Service import DispositivoService
+from App.Service.Usuario_Service import UsuarioService
+from App.Service.Dataset_Service import DatasetService
+from App.config import app, db
+
 
 # qualquer coisa eu vou tentar mudar esse id para UUID, SE DER E PRECISAR
 # routes para manipulação com usuário
@@ -104,108 +106,39 @@ def consulta_dispositivos():
 
 
 # routes para manipulação de datasets
-@app.route("/usuario/cadastra_dataset", methods=["POST"])
-def cadastra_dataset():
+# EM TESTAGEM
+@app.route("/datasets", methods=["POST"])
+def cadastra_dataset(url: str):
+    data = request.json
 
-        data = request.json
+    nome = data.get("nome")
+    desc = data.get("descricao")
 
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe a url"}), 400
-        
-        nome = data.get("nome")
-        desc = data.get("desc")
-
-        dataset = Dataset(
-                url = url, 
-                nome = nome, 
-                desc = desc
-                )
-        
-        json_dataset = dataset.to_Json()
-
-        try:
-                db.session.add(dataset)
-                db.session.commit()
-        
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "erro na hora de criar no banco de dados", "causa": str(e)}), 400
-
-        return jsonify({"mensagem": "dataset cadastrado", "dataset": json_dataset}), 200
+    response, status = DatasetService.cadastra(url, nome, desc)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/consulta_dataset", methods=["GET"])
-def consulta_dataset():
-
-        data = request.json
-
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe a url do dataset"}), 400
-
-        dataset = Dataset.query.filter(Dataset.url == url).first()
-        if not dataset:
-                return jsonify({"mensagem": "nenhuma dataset com essa url encontrada"}), 403
-
-        json_dataset = dataset.to_Json()
-        return jsonify({"dataset encontrado": json_dataset}), 200
+@app.route("/datasets/<url>", methods=["GET"])
+def consulta_dataset(url: str):
+    response, status = DatasetService.consulta(url)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/altera_dataset", methods=["PATCH"])
-def altera_dataset():
+@app.route("/datasets/<url>", methods=["PATCH"])
+def altera_dataset(url: str):
+    data = request.json
 
-        data = request.json
+    nome = data.get("nome")
+    desc = data.get("descricao")
 
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe o url"}), 400
-
-        dataset = Dataset.query.filter(Dataset.url == url).first()
-        if not dataset:
-                return jsonify({"mensagem": "nenhum dataset encontrado"}), 403 
-
-        novo_nome = data.get("nome")
-        nova_desc = data.get("desc")
-
-        if novo_nome:
-                dataset.nome = novo_nome
-        
-        if nova_desc:
-                dataset.descricao = nova_desc
-
-        try:
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "deu problema pra alterar", "causa": str(e)}), 400
-
-        return jsonify({"mensagem": "dataset alterado"}), 200
+    response, status = DatasetService.altera(url, nome, desc)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/remove_dataset", methods=["DELETE"])
-def remove_dataset():
-
-        data = request.json
-
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe o url"}), 400
-
-        dataset = Dataset.query.filter(Dataset.url == url).first()
-        if not dataset:
-                return jsonify({"mensagem": "nenhum dataset encontrado"}), 403
-
-        try:
-                db.session.delete(dataset)
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "não foi possível tirar do banco de dados", "causa": str(e)}), 400
-
-        return jsonify({"mensagem": "dataset deletado"}), 200
+@app.route("/datasets/<url>", methods=["DELETE"])
+def remove_dataset(url: str):
+    response, status = DatasetService.remove(url)
+    return jsonify({"mensagem": response}), status
 
 
 # routes para modelos
