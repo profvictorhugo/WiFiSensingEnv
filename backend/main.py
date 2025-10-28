@@ -59,7 +59,6 @@ def remove_usuario(id: int):
     return jsonify({"mensagem": response}), status
 
 
-# testar depois no insomnia
 # routes para manipulação de dispositivos
 @app.route("/dispositivos", methods=["POST"])
 def cadastra_dispositivo():
@@ -86,13 +85,13 @@ def altera_dispositivo(codigo: str):
     return jsonify({"mensagem": response}), status
 
 
-@app.route("/dispositivo/<codigo>", methods=["DELETE"])
+@app.route("/dispositivos/<codigo>", methods=["DELETE"])
 def remove_dispositivo(codigo: str):
     response, status = DispositivoService.remove(codigo)
     return jsonify({"mensagem": response}), status
 
 
-@app.route("/ dispositivos/<codigo>", methods=["GET"])
+@app.route("/dispositivos/<codigo>", methods=["GET"])
 def consulta_dispositivo(codigo: str):
     response, status = DispositivoService.consulta(codigo)
     return jsonify({"mensagem": response}), status
@@ -104,7 +103,6 @@ def consulta_dispositivos():
     return jsonify({"mensagem": response}), status
 
 
-# continuar aqui APÓS TESTAR O DE DISPOSITIVO
 # routes para manipulação de datasets
 @app.route("/usuario/cadastra_dataset", methods=["POST"])
 def cadastra_dataset():
