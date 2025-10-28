@@ -37,6 +37,15 @@ class DatasetService:
 
         return {"mensagem": "dataset encontrado"}, 200
 
+    @staticmethod
+    def consulta_todos():
+
+        datasets = Dataset.query.all()
+
+        dataset_json = [dataset.to_Json() for dataset in datasets]
+
+        return {"datasets": dataset_json}, 200
+
 
     @staticmethod
     def altera(url: str, nome: str, desc: str):
@@ -84,11 +93,3 @@ class DatasetService:
         except Exception as e:
             db.session.rollback()
             return {"mensagem": f"não foi possível deletar do banco de dados :: {str(e)}"}, 400
-
-
-
-
-
-
-
-

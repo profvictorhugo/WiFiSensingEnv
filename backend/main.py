@@ -124,6 +124,12 @@ def consulta_dataset(url: str):
     return jsonify({"mensagem": response}), status
 
 
+@app.route("/datasets", methods=["GET"])
+def consulta_datasets():
+    response, status = DatasetService.consulta_todos()
+    return jsonify({"mensagem": response}), status
+
+
 @app.route("/datasets/<url>", methods=["PATCH"])
 def altera_dataset(url: str):
     data = request.json
