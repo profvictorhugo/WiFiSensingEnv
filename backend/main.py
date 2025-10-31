@@ -6,6 +6,7 @@ from flask import request, jsonify
 
 from App.Model.models import Usuario, Dataset, Modelo
 from App.Service.Dispositivo_Service import DispositivoService
+from App.Service.Modelo_Service import ModeloService
 from App.Service.Usuario_Service import UsuarioService
 from App.Service.Dataset_Service import DatasetService
 from App.config import app, db
@@ -148,123 +149,48 @@ def remove_dataset(url: str):
 
 
 # routes para modelos
-@app.route("/usuario/cadastra_modelo", methods=["POST"])
+# testar tbm
+@app.route("/modelos", methods=["POST"])
 def cadastra_modelo():
+    data = request.json
 
-        data = request.json
+    email     = data.get("email")
+    url       = data.get("url")
+    nome      = data.get("nome")
+    descricao = data.get("descricao")
 
-        email = data.get("email")
-        if not email:
-                return jsonify({"mensagem": "informe seu email"}), 400
-
-        usuario = Usuario.query.filter(Usuario.email == email).first()
-        if not usuario:
-                return jsonify({"mensagem": "esse email não está cadastrado"}), 403
-
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe o url do modelo"}), 400
-        
-        nome = data.get("nome")
-        desc = data.get("descricao")
-
-        modelo = Modelo(
-                id_usuario = usuario.id,
-                url = url,
-                nome = nome,
-                descricao = desc
-        )
-
-        json_modelo = modelo.to_Json()
-
-        try:
-                db.session.add(modelo)
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "não foi possível cadastrar", "causa": str(e)}), 400
-        
-        return jsonify({"mensagem": "cadastrado", "modelo": json_modelo}), 200
+    response, status = ModeloService.cadastra(email, url, nome, descricao)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/consulta_modelo", methods=["GET"])
-def consulta_modelo():
-
-        data = request.json
-
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe a url do modelo"}), 400
-
-        modelo = Modelo.query.filter(Modelo.url == url).first()
-        if not modelo:
-                return jsonify({"mensagem": "nenhum modelo encontrado com essa url"}), 403
-
-        json_modelo = modelo.to_Json()
-
-        return jsonify({"modelo encontrado": json_modelo}), 200
+@app.route("/modelos/<url>", methods=["GET"])
+def consulta_modelo(url: str):
+    response, status = ModeloService.consulta(url)
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/altera_modelo", methods=["PATCH"])
-def altera_modelo():
-        
-        data = request.json
-
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe a url do modelo que deseja alterar"}), 400
-
-        modelo = Modelo.query.filter(Modelo.url == url).first()
-        if not modelo:
-                return jsonify({"mensagem": "modelo não encontrado"}), 403
-
-        nova_url = data.get("nova_url")
-        novo_nome = data.get("nome")
-        nova_desc = data.get("desc")
-        
-        if nova_url:
-                modelo.url = nova_url
-
-        if novo_nome:
-                modelo.nome = novo_nome
-        
-        if nova_desc:
-                modelo.descricao = nova_desc
-
-        try:
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "não foi possível submeter as mudanças", "causa": str(e)}), 400
-        
-        return jsonify({"mensagem": "alterações salvas"}), 200
+@app.route("/modelos", methods=["GET"])
+def consulta_modelos():
+    response, status = ModeloService.consulta_todos()
+    return jsonify({"mensagem": response}), status
 
 
-@app.route("/usuario/remove_modelo", methods=["DELETE"])
-def remove_modelo():
+@app.route("/modelos/<url>", methods=["PATCH"])
+def altera_modelo(url: str):
+    data = request.json
 
-        data = request.json
-        
-        url = data.get("url")
-        if not url:
-                return jsonify({"mensagem": "informe o url do modelo"}), 400
+    nova_url       = data.get("nova_url")
+    novo_nome      = data.get("novo_nome")
+    nova_descricao = data.get("nova_descricao")
 
-        modelo = Modelo.query.filter(Modelo.url == url).first()
-        if not modelo:
-                return jsonify({"mensagem": "nenhum modelo com essa url encontrado"}), 403
-        
-        try:
-                db.session.delete(modelo)
-                db.session.commit()
-
-        except Exception as e:
-                db.session.rollback()
-                return jsonify({"mensagem": "não foi possível deletar seu modelo", "causa": str(e)}), 400
+    response, status = ModeloService.altera(url, nova_url, novo_nome, nova_descricao)
+    return jsonify({"mensagem": response}), status
 
 
-        return jsonify({"mensagem": "modelo deletado"}), 200
+@app.route("/modelos/<url>", methods=["DELETE"])
+def remove_modelo(url: str):
+    response, status = ModeloService.remove(url)
+    return jsonify({"mensagem": response}), status
 
        
 # route para pegar amostras e salvar elas
