@@ -189,7 +189,8 @@ def remove_modelo(url: str):
     response, status = ModeloService.remove(url)
     return jsonify({"mensagem": response}), status
 
-       
+
+# tenho que ver como vou fazer esse aqui
 # route para pegar amostras e salvar elas
 @app.route("/usuario/coleta_amostra", methods=['POST'])
 def coletar_amostra():
