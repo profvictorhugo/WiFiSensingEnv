@@ -1,4 +1,4 @@
-from App.config import db
+from App.Configuration.config import db
 from App.Model.models import Dataset
 
 class DatasetService:

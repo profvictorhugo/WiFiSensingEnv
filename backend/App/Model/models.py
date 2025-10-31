@@ -1,4 +1,4 @@
-from App.config import db
+from App.Configuration.config import db
 
 class Usuario(db.Model):
         id      = db.Column(db.Integer, primary_key=True)

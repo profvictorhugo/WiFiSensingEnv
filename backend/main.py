@@ -4,15 +4,12 @@ import subprocess
 
 from flask import request, jsonify
 
-from App.Model.models import Usuario, Dataset, Modelo
 from App.Service.Dispositivo_Service import DispositivoService
 from App.Service.Modelo_Service import ModeloService
 from App.Service.Usuario_Service import UsuarioService
 from App.Service.Dataset_Service import DatasetService
-from App.config import app, db
+from App.Configuration.config import app, db
 
-
-# qualquer coisa eu vou tentar mudar esse id para UUID, SE DER E PRECISAR
 # routes para manipulação com usuário
 @app.route("/login", methods=['POST'])
 def logar_usuario():
