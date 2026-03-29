@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: wifisensing-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wifisensing
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: wifisensing-backend
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: mysql+pymysql://root:root@mysql:3306/wifisensing
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: wifisensing-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  csi_publisher:
+    build: ./csi_ws
+    container_name: wifisensing-csi-publisher
+    command: ros2 run csi csi_publisher
+    environment:
+      ROS_DOMAIN_ID: 0
+    networks:
+      - ros2_net
+    restart: unless-stopped
+
+  csi_subscriber:
+    build: ./csi_ws
+    container_name: wifisensing-csi-subscriber
+    command: ros2 run csi csi_subscriber
+    environment:
+      ROS_DOMAIN_ID: 0
+    networks:
+      - ros2_net
+    depends_on:
+      - csi_publisher
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  ros2_net:
+    driver: bridge

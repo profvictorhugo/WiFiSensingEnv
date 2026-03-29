@@ -8,7 +8,9 @@ CORS(app)
 
 # tudo devidamente configurado
 app.config['SECRET_KEY'] = os.urandom(24) # não temos chaves, toma uma aleatória
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost:3306/wifisensing'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URL', 'mysql+pymysql://root:root@localhost:3306/wifisensing'
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
