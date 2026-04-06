@@ -18,31 +18,54 @@ Workspace ROS 2 com um pacote simples de publisher/subscriber para teste de comu
 - O publisher publica um contador incrementado a cada 1 segundo.
 - O subscriber recebe os valores, conta as mensagens recebidas e loga um aviso a cada múltiplo de 5.
 
+## Rodando com Docker Compose (recomendado)
+ 
+```bash
+cd csi_ws
+docker compose up -d --build
+```
+ 
+Para acompanhar os logs em tempo real:
+ 
+```bash
+docker compose logs -f
+```
+ 
+Para parar os contêineres:
+ 
+```bash
+docker compose down
+```
+ 
 ---
-
-## Rodando localmente
-
+ 
+## Rodando com Docker manualmente
+ 
+```bash
+cd csi_ws
+docker build -t csi:latest .
+ 
+# Terminal 1 — publisher
+docker run --rm --network host csi:latest ros2 run csi csi_publisher
+ 
+# Terminal 2 — subscriber
+docker run --rm --network host csi:latest ros2 run csi csi_subscriber
+```
+ 
+---
+ 
+## Rodando localmente (sem Docker)
+ 
+Requer ROS 2 Humble instalado na máquina.
+ 
 ```bash
 cd csi_ws
 colcon build --symlink-install
 source install/setup.bash
-
+ 
 # Terminal 1
 ros2 run csi csi_publisher
-
+ 
 # Terminal 2
 ros2 run csi csi_subscriber
-```
-
-## Rodando com Docker
-
-```bash
-cd csi_ws
-docker build -t csi:latest .
-
-# Terminal 1
-docker run --rm --network host csi:latest csi_publisher
-
-# Terminal 2
-docker run --rm --network host csi:latest csi_subscriber
 ```

@@ -1,0 +1,26 @@
+services:
+  csi_publisher:
+    build: .
+    container_name: wifisensing-csi-publisher
+    command: ros2 run csi csi_publisher
+    environment:
+      ROS_DOMAIN_ID: 0
+    networks:
+      - ros2_net
+    restart: unless-stopped
+
+  csi_subscriber:
+    build: .
+    container_name: wifisensing-csi-subscriber
+    command: ros2 run csi csi_subscriber
+    environment:
+      ROS_DOMAIN_ID: 0
+    networks:
+      - ros2_net
+    depends_on:
+      - csi_publisher
+    restart: unless-stopped
+
+networks:
+  ros2_net:
+    driver: bridge
