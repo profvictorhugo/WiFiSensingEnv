@@ -2,8 +2,8 @@ import "./Login.css";
 import { useState } from "react";
 import Cadastro from "../../components/Cadastro/Cadastro";
 import tituloLogo from "../../assets/titulo-logo.svg";
-import userCircle from "../../assets/user-circle.svg";
-import lockClosed from "../../assets/lock-closed.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
@@ -35,13 +35,13 @@ const Login = () => {
           <form className="login-form reveal-2">
             <label className="input-group">
               <span className="input-icon">
-                <img src={userCircle} alt="User Icon" />
+                <FontAwesomeIcon icon={faUser} aria-hidden="true" />
               </span>
               <input className="login-input" type="email" name="email" placeholder="E-mail" />
             </label>
             <label className="input-group">
               <span className="input-icon">
-                <img src={lockClosed} alt="Lock Icon" />
+                <FontAwesomeIcon icon={faLock} aria-hidden="true" />
               </span>
               <input className="login-input" type="password" name="senha" placeholder="Senha" />
             </label>

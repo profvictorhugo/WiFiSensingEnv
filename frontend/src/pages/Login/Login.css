@@ -61,14 +61,16 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 6px;
 }
 
 .login-hero-badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 18px;
+  align-self: center;
+  padding: 18px 32px;
   border-radius: 999px;
   background: var(--logo-pill-bg);
   border: 1px solid var(--logo-pill-border);
@@ -76,8 +78,20 @@
   width: fit-content;
 }
 
+.login-hero-badge::before {
+  content: "";
+  position: absolute;
+  inset: 12px 20px;
+  border-radius: 20px;
+  background: rgba(231, 251, 248, 0.14);
+  box-shadow: 0 12px 26px rgba(3, 35, 41, 0.18);
+  z-index: 0;
+}
+
 .login-hero-badge img {
-  width: 140px;
+  width: 240px;
+  position: relative;
+  z-index: 1;
 }
 
 .login-hero-title {
@@ -185,10 +199,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.7;
+  opacity: 1;
+  color: var(--c-text);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .login-input {
+  position: relative;
+  z-index: 0;
   width: 100%;
   border-radius: 14px;
   border: 1px solid rgba(6, 44, 50, 0.14);
@@ -207,7 +226,6 @@
   outline: none;
   border-color: rgba(72, 192, 178, 0.8);
   box-shadow: 0 0 0 3px rgba(72, 192, 178, 0.18);
-  transform: translateY(-1px);
 }
 
 .botao-login {
