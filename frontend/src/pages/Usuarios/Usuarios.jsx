@@ -1,5 +1,5 @@
 import './Usuarios.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +19,7 @@ const Usuarios = () => {
   const [editValues, setEditValues] = useState({ nome: '', permissao: 'Admin' });
   const usuarioAtual = { permissao: 'Admin' };
 
-  const permissoes = ['Admin', 'Editor', 'Leitor'];
+  const permissoes = ['Admin', 'Editor', 'Visualizador'];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,6 +50,40 @@ const Usuarios = () => {
     );
     setEditIndex(null);
   };
+
+  const cancelarEdicao = () => {
+    setEditIndex(null);
+    setEditValues({ nome: '', permissao: 'Admin' });
+  };
+
+  const handleEditKeyDown = (event, index) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      salvarEdicao(index);
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      cancelarEdicao();
+    }
+  };
+
+  useEffect(() => {
+    if (editIndex === null) {
+      return undefined;
+    }
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        cancelarEdicao();
+      }
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        salvarEdicao(editIndex);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [editIndex, editValues]);
 
   return (
     <div className="usuarios-page">
@@ -100,6 +134,7 @@ const Usuarios = () => {
                           onChange={(event) =>
                             setEditValues((prev) => ({ ...prev, nome: event.target.value }))
                           }
+                          onKeyDown={(event) => handleEditKeyDown(event, idx)}
                         />
                       ) : (
                         u.nome
@@ -115,6 +150,7 @@ const Usuarios = () => {
                           onChange={(event) =>
                             setEditValues((prev) => ({ ...prev, permissao: event.target.value }))
                           }
+                          onKeyDown={(event) => handleEditKeyDown(event, idx)}
                         >
                           {permissoes.map((permissao) => (
                             <option key={permissao} value={permissao}>
@@ -153,6 +189,7 @@ const Usuarios = () => {
                           aria-label="Excluir usuário"
                           type="button"
                           title="Excluir usuário"
+                          disabled={editIndex === idx}
                           onClick={() => {
                             const confirmado = window.confirm(
                               'Essa ação irá excluir o usuário. Você quer continuar?'

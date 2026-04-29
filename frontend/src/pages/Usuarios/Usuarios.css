@@ -101,6 +101,7 @@
   color: var(--c-text);
   border-radius: 999px;
   padding: 8px 18px;
+  font-size: 0.95rem;
   font-weight: 600;
   transition: border 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
@@ -178,6 +179,7 @@
 .usuarios-actions {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .icon-button {
@@ -192,6 +194,47 @@
 
 .icon-button:hover {
   background: rgba(6, 44, 50, 0.12);
+  transform: translateY(-1px);
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.usuarios-edit-input,
+.usuarios-edit-select {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 44, 50, 0.16);
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  color: var(--c-text);
+  background: rgba(6, 44, 50, 0.03);
+  font-family: var(--font-body);
+}
+
+.usuarios-edit-input:focus,
+.usuarios-edit-select:focus {
+  outline: 2px solid rgba(95, 217, 204, 0.45);
+  outline-offset: 2px;
+}
+
+.usuarios-save-button {
+  border: 1px solid rgba(6, 44, 50, 0.18);
+  background: transparent;
+  color: var(--c-text);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: border 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.usuarios-save-button:hover {
+  border-color: rgba(72, 192, 178, 0.7);
+  background: rgba(95, 217, 204, 0.12);
   transform: translateY(-1px);
 }
 
