@@ -32,11 +32,25 @@ create table Dataset(
 
 create table Modelo(
 	id bigint primary key auto_increment,
-    url varchar(100) unique key not null,
+    tipo enum('IA', 'Sistema') not null default 'IA',
+    url varchar(120) unique key null,
+    modelo longblob null,
     nome varchar(90),
     descricao varchar(150),
+    descricao_algoritmo text null,
+    parametros json null,
     id_usuario bigint,
-    foreign key (id_usuario) references Usuario(id)
+    id_pai bigint null,
+    foreign key (id_usuario) references Usuario(id) on delete cascade,
+    foreign key (id_pai) references Modelo(id) on delete cascade
+);
+
+create table ItemModelo(
+    id bigint primary key auto_increment,
+    id_pai bigint not null,
+    nome varchar(90) not null,
+    descricao varchar(300),
+    foreign key (id_pai) references Modelo(id) on delete cascade
 );
 
 
