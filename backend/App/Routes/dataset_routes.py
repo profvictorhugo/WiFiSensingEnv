@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
-
-from App.Service.Dataset_Service import DatasetService
+from backend.App.Service.Dataset_Service import DatasetService
 
 dataset_bp = Blueprint("dataset_bp", __name__)
 
@@ -8,8 +7,7 @@ dataset_bp = Blueprint("dataset_bp", __name__)
 @dataset_bp.route("/datasets", methods=["POST"])
 def cadastra_dataset():
     data = request.get_json(silent=True) or {}
-
-    url = data.get("url")
+    url  = data.get("url")
     nome = data.get("nome")
     desc = data.get("descricao")
 
@@ -32,7 +30,6 @@ def consulta_datasets():
 @dataset_bp.route("/datasets/<path:url>", methods=["PATCH"])
 def altera_dataset(url: str):
     data = request.get_json(silent=True) or {}
-
     nome = data.get("nome")
     desc = data.get("descricao")
 

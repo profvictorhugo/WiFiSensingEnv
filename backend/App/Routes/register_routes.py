@@ -1,8 +1,8 @@
-from App.Routes.usuario_routes import usuario_bp
-from App.Routes.dispositivo_routes import dispositivo_bp
-from App.Routes.dataset_routes import dataset_bp
-from App.Routes.modelo_routes import modelo_bp
-from App.Routes.amostra_routes import amostra_bp
+from backend.App.Routes.usuario_routes import usuario_bp
+from backend.App.Routes.dispositivo_routes import dispositivo_bp
+from backend.App.Routes.dataset_routes import dataset_bp
+from backend.App.Routes.modelo_routes import modelo_bp
+from backend.App.Routes.amostra_routes import amostra_bp
 
 
 def register_routes(app):

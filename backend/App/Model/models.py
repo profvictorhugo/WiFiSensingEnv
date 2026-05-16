@@ -1,6 +1,6 @@
 import base64
 
-from App.Configuration.config import db
+from backend.App.Configuration.config import db
 
 class Usuario(db.Model):
         id      = db.Column(db.Integer, primary_key=True)
@@ -28,8 +28,8 @@ class Dispositivo(db.Model):
         script_configuracao = db.Column(db.String(200))
 
         def __init__(self, codigo, nome, descricao, script):
-            self.codigo = codigo
-            self.nome = nome
+            self.codigo    = codigo
+            self.nome      = nome
             self.descricao = descricao
             self.script_configuracao = script
 
@@ -50,8 +50,8 @@ class Dataset(db.Model):
         descricao = db.Column(db.String(150))
 
         def __init__(self, url, nome, desc):
-            self.url = url
-            self.nome = nome
+            self.url       = url
+            self.nome      = nome
             self.descricao = desc
 
         def to_Json(self):
@@ -64,21 +64,18 @@ class Dataset(db.Model):
 
 
 class Modelo(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        id_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id", ondelete="CASCADE"))
-
+        id   = db.Column(db.Integer, primary_key=True)
         tipo = db.Column(db.Enum("IA", "Sistema", name="modelo_tipo"), nullable=False, default="IA")
+        id_usuario = db.Column(db.Integer, db.ForeignKey("usuario.id", ondelete="CASCADE"))
 
         # Se o modelo estiver salvo no PC, use `url`.
         # Se estiver salvo no banco, use `modelo` (blob) e deixe `url` nulo.
-        url = db.Column(db.String(120), nullable=True, unique=True)
-        modelo = db.Column(db.LargeBinary, nullable=True)
-
-        nome = db.Column(db.String(90))
-        descricao = db.Column(db.String(150))
-
-        descricao_algoritmo = db.Column(db.Text, nullable=True)
+        url        = db.Column(db.String(120), nullable=True, unique=True)
+        modelo     = db.Column(db.LargeBinary, nullable=True)
+        nome       = db.Column(db.String(90))
+        descricao  = db.Column(db.String(150))
         parametros = db.Column(db.JSON, nullable=True)
+        descricao_algoritmo = db.Column(db.Text, nullable=True)
 
         # "Fontes de dados" para um Sistema: filhos da própria tabela Modelo
         id_pai = db.Column(db.Integer, db.ForeignKey("modelo.id", ondelete="CASCADE"), nullable=True)
@@ -141,14 +138,14 @@ class Modelo(db.Model):
 
 
 class ItemModelo(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        id_pai = db.Column(db.Integer, db.ForeignKey("modelo.id", ondelete="CASCADE"), nullable=False)
-        nome = db.Column(db.String(90), nullable=False)
+        id        = db.Column(db.Integer, primary_key=True)
+        id_pai    = db.Column(db.Integer, db.ForeignKey("modelo.id", ondelete="CASCADE"), nullable=False)
+        nome      = db.Column(db.String(90), nullable=False)
         descricao = db.Column(db.String(300), nullable=True)
 
         def __init__(self, id_pai, nome, descricao=None):
-            self.id_pai = id_pai
-            self.nome = nome
+            self.id_pai    = id_pai
+            self.nome      = nome
             self.descricao = descricao
 
         def to_Json(self):

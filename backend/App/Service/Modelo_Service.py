@@ -1,7 +1,7 @@
 import base64
 
-from App.Configuration.config import db
-from App.Model.models import ItemModelo, Modelo, Usuario
+from backend.App.Configuration.config import db
+from backend.App.Model.models import ItemModelo, Modelo, Usuario
 
 
 class ModeloService:
@@ -16,8 +16,9 @@ class ModeloService:
 
         try:
             return base64.b64decode(modelo_base64), None
-        except Exception:
-            return None, {"mensagem": "campo 'modelo' inválido (base64)"}
+        except Exception as e:
+            return None, {"mensagem": "campo 'modelo' inválido (base64)", "erro": str(e)}
+
 
     @staticmethod
     def _normaliza_tipo(tipo):
@@ -26,17 +27,18 @@ class ModeloService:
         if not isinstance(tipo, str):
             return None
 
-        tipo_raw = tipo.strip()
+        tipo_raw   = tipo.strip()
         tipo_upper = tipo_raw.upper()
+
         if tipo_upper == "IA":
             return "IA"
         if tipo_upper == "SISTEMA":
             return "Sistema"
-
         if tipo_raw in ["IA", "Sistema"]:
             return tipo_raw
 
         return None
+
 
     @staticmethod
     def _valida_url_x_modelo(tipo, url, modelo_bytes, modelo_base64_enviado):
@@ -48,6 +50,7 @@ class ModeloService:
                 return {"mensagem": "para tipo IA informe 'url' ou 'modelo' (base64)"}
 
         return None
+
 
     @staticmethod
     def _upsert_itens_modelo(modelo: Modelo, itens_modelo):
@@ -73,6 +76,7 @@ class ModeloService:
             db.session.add(ItemModelo(id_pai=modelo.id, nome=nome, descricao=descricao))
 
         return None
+
 
     @staticmethod
     def _upsert_fontes_dados(modelo: Modelo, fontes_dados):
@@ -139,6 +143,7 @@ class ModeloService:
 
         return None
 
+
     @staticmethod
     def cadastra(
         email: str,
@@ -153,21 +158,18 @@ class ModeloService:
         fontes_dados=None,
         itens_modelo=None,
     ):
+
         if not email:
             return {"mensagem": "informe o email"}, 400
-
         usuario = Usuario.query.filter(Usuario.email == email).first()
         if not usuario:
             return {"mensagem": "esse email não está cadastrado"}, 403
-
         tipo_norm = ModeloService._normaliza_tipo(tipo)
         if not tipo_norm:
             return {"mensagem": "tipo inválido (use 'IA' ou 'Sistema')"}, 400
-
         modelo_bytes, err = ModeloService._decode_modelo_base64(modelo_base64)
         if err:
             return err, 400
-
         err = ModeloService._valida_url_x_modelo(tipo_norm, url, modelo_bytes, modelo_base64 is not None)
         if err:
             return err, 400
@@ -206,6 +208,7 @@ class ModeloService:
             db.session.rollback()
             return {"mensagem": f"não foi possível cadastrar :: {str(e)}"}, 400
 
+
     @staticmethod
     def consulta_por_url(url: str):
         if not url:
@@ -216,6 +219,7 @@ class ModeloService:
             return {"mensagem": "nenhum modelo encontrado com essa url"}, 404
 
         return {"modelo": modelo.to_Json(include_modelo=True)}, 200
+
 
     @staticmethod
     def consulta_por_id(id: int):
@@ -228,11 +232,13 @@ class ModeloService:
 
         return {"modelo": modelo.to_Json(include_modelo=True)}, 200
 
+
     @staticmethod
     def consulta_todos():
         modelos = Modelo.query.all()
         modelos_json = [modelo.to_Json(include_modelo=False) for modelo in modelos]
         return {"modelos": modelos_json}, 200
+
 
     @staticmethod
     def _altera_modelo_obj(
@@ -247,29 +253,23 @@ class ModeloService:
         fontes_dados=None,
         itens_modelo=None,
     ):
+
         if nova_url is not None and modelo_base64 is not None:
             return {"mensagem": "preencha apenas um: 'nova_url' ou 'modelo' (base64)"}
-
         if novo_nome is not None:
             modelo.nome = novo_nome
-
         if nova_desc is not None:
             modelo.descricao = nova_desc
-
         if descricao_algoritmo is not None:
             modelo.descricao_algoritmo = descricao_algoritmo
-
         if parametros is not None:
             modelo.parametros = parametros
-
         if id_pai is not None:
             modelo.id_pai = id_pai
-
         if nova_url is not None:
             modelo.url = nova_url if str(nova_url).strip() != "" else None
             if modelo.url is not None:
                 modelo.modelo = None
-
         if modelo_base64 is not None:
             modelo_bytes, err = ModeloService._decode_modelo_base64(modelo_base64)
             if err:
@@ -292,6 +292,7 @@ class ModeloService:
                 return err
 
         return None
+
 
     @staticmethod
     def altera_por_url(
@@ -334,6 +335,7 @@ class ModeloService:
         except Exception as e:
             db.session.rollback()
             return {"mensagem": f"não foi possível submeter as mudanças :: {str(e)}"}, 400
+
 
     @staticmethod
     def altera_por_id(
@@ -393,6 +395,7 @@ class ModeloService:
         except Exception as e:
             db.session.rollback()
             return {"mensagem": f"não foi possível deletar o modelo :: {str(e)}"}, 400
+
 
     @staticmethod
     def remove_por_id(id: int):

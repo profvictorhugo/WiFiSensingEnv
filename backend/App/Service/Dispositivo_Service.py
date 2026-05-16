@@ -1,11 +1,10 @@
-from App.Configuration.config import db
-from App.Model.models import Dispositivo
+from backend.App.Configuration.config import db
+from backend.App.Model.models import Dispositivo
 
 class DispositivoService:
 
     @staticmethod
     def cadastra(nome: str, descricao: str, codigo: str ,script: str):
-
         if not codigo or not nome or not codigo or not descricao or not script:
             return {"mensagem": "informe os campos necessários para criação"}, 400
 
@@ -28,7 +27,6 @@ class DispositivoService:
 
     @staticmethod
     def altera(codigo: str, nome: str, descricao: str, script: str):
-
         if not codigo:
             return {"mensagem": "informe o código do dispositivo"}, 400
 
@@ -36,16 +34,12 @@ class DispositivoService:
         if not dispositivo:
             return {"mensagem": "esse código não consta no banco de dados"}, 403
 
-
         if nome:
             dispositivo.nome = nome
-
         if descricao:
             dispositivo.descricao = descricao
-
         if script:
             dispositivo.script_configuracao = script
-
 
         try:
             db.session.commit()
@@ -58,7 +52,6 @@ class DispositivoService:
 
     @staticmethod
     def remove(codigo: str):
-
         if not codigo:
             return {"mensagem": "nenhum código informado"}, 400
 
@@ -78,7 +71,6 @@ class DispositivoService:
 
     @staticmethod
     def consulta(codigo: str):
-
         if not codigo:
                 return {"mensagem": "nenhum código passado"}, 400
 
@@ -93,9 +85,6 @@ class DispositivoService:
 
     @staticmethod
     def consulta_todos():
-
         dispositivos = Dispositivo.query.all()
-
         disp_json = [disp.to_Json() for disp in dispositivos]
-
         return {"dispositivos": disp_json}, 200

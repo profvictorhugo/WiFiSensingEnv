@@ -1,11 +1,11 @@
-from App.Configuration.config import db
-from App.Model.models import Usuario
+from backend.App.Configuration.config import db
+from backend.App.Model.models import Usuario
+
 
 class UsuarioService:
 
     @staticmethod
     def login(email: str, senha: str):
-
         if not email or not senha:
             return {"mensagem": "informe o email e a senha"}, 400
 
@@ -18,7 +18,6 @@ class UsuarioService:
 
     @staticmethod
     def cadastra(email: str, senha: str):
-
         if not email or not senha:
             return {"mensagem": "preencha o email e a senha"}, 400
 
@@ -36,7 +35,6 @@ class UsuarioService:
 
     @staticmethod
     def consulta(id: int):
-
         if not id:
             return {"mensagem": "nenhum email passado"}, 400
 
@@ -51,16 +49,13 @@ class UsuarioService:
 
     @staticmethod
     def consulta_todos():
-
         usuarios = Usuario.query.all()
         json_usuarios = [user.to_Json() for user in usuarios]
-
         return {"usuarios": json_usuarios}, 200
 
 
     @staticmethod
     def altera(id: int, nova_senha: str):
-
         if not id:
             return {"mensagem": "informe o id"}, 400
 
@@ -83,7 +78,6 @@ class UsuarioService:
 
     @staticmethod
     def remove(id: int):
-
         if not id:
             return {"mensagem": "informe o email"}, 400
 

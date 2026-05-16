@@ -1,13 +1,12 @@
 from flask import Blueprint, jsonify, request
-
-from App.Service.Usuario_Service import UsuarioService
+from backend.App.Service.Usuario_Service import UsuarioService
 
 usuario_bp = Blueprint("usuario_bp", __name__)
 
 
 @usuario_bp.route("/login", methods=["POST"])
 def logar_usuario():
-    data = request.get_json(silent=True) or {}
+    data  = request.get_json(silent=True) or {}
     email = data.get("email")
     senha = data.get("senha")
 
@@ -17,7 +16,7 @@ def logar_usuario():
 
 @usuario_bp.route("/usuarios", methods=["POST"])
 def cadastra_usuario():
-    data = request.get_json(silent=True) or {}
+    data  = request.get_json(silent=True) or {}
     email = data.get("email")
     senha = data.get("senha")
 

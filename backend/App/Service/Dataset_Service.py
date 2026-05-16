@@ -1,11 +1,10 @@
-from App.Configuration.config import db
-from App.Model.models import Dataset
+from backend.App.Configuration.config import db
+from backend.App.Model.models import Dataset
 
 class DatasetService:
 
     @staticmethod
     def cadastra(url: str, nome: str, desc: str):
-
         if not url or not nome or not desc:
             return {"mensagem": "informe a url"}, 400
 
@@ -27,7 +26,6 @@ class DatasetService:
 
     @staticmethod
     def consulta(url: str):
-
         if not url:
             return {"mensagem": "informe a url do dataset"}, 400
 
@@ -39,17 +37,13 @@ class DatasetService:
 
     @staticmethod
     def consulta_todos():
-
         datasets = Dataset.query.all()
-
         dataset_json = [dataset.to_Json() for dataset in datasets]
-
         return {"datasets": dataset_json}, 200
 
 
     @staticmethod
     def altera(url: str, nome: str, desc: str):
-
         if not url:
             return {"mensagem": "informe o url"}, 400
 
@@ -77,7 +71,6 @@ class DatasetService:
 
     @staticmethod
     def remove(url: str):
-
         if not url:
             return {"mensagem": "informe o url"}, 400
 

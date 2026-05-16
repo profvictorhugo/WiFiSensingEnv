@@ -9,19 +9,18 @@ def gerar_amostras(n):
 
 
 def salvar_em_arquivo(amostras, path, filename):
+    caminho_completo = Path(path) / filename
 
-        os.makedirs(path, exist_ok=True)
-        caminho_completo = os.path.join(path, filename)
+    caminho_completo.parent.mkdir(parents=True, exist_ok=True)
 
-        with open(caminho_completo, 'w') as f:
-                for valor in amostras:
-                        f.write(f"{valor}\n")
-    
-        return str(Path(caminho_completo).resolve())
+    with open(caminho_completo, 'w') as f:
+        for valor in amostras:
+            f.write(f"{valor}\n")
+
+    return str(caminho_completo.resolve())
 
 
 def main():
-    
         parser = argparse.ArgumentParser(description="Gera amostras e salva em arquivo.")
         
         parser.add_argument('-n', type=int, required=True, help='Número de amostras')
