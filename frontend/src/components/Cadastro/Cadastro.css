@@ -1,117 +1,159 @@
-.cartao-cadastro {
-  background-color: rgb(34, 73, 98);
-  height: 30rem;
-  width: 24rem;
-  border-radius: 7px;
-  box-shadow: 10px 15px 30px rgba(0, 0, 0, 0.3),
-    inset 0 1px 10px rgba(0, 0, 0, 0.2);
-  padding: 7rem;
-  text-align: center;
+.cadastro-layer {
+  position: fixed;
+  inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 25, 32, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+.cartao-cadastro {
+  background: linear-gradient(165deg, rgba(8, 45, 54, 0.98), rgba(10, 58, 69, 0.9));
+  width: min(420px, 92vw);
+  border-radius: 20px;
+  box-shadow: 0 26px 60px rgba(2, 16, 22, 0.5);
+  padding: 30px 28px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  color: var(--c-text-inverse);
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(155, 232, 223, 0.16);
+  animation: modalEnter 0.35s ease;
+}
+
+.cadastro-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
 }
 
 .subtitulo-cadastro {
-  margin-bottom: 3rem;
-  margin-top: -0.5rem;
-  scale: 1.2;
-}
-
-.botao-cadastro, .fechar-cadastro {
-  background-color: rgba(119, 236, 216, 0.76);
-  color: rgba(255, 255, 255, 0.733);
-  font-size: 1rem;
-  font-weight: 550;
-  border: none;
-  border-radius: 5px;
-  margin-top: 2.5rem;
-  padding: 0.6rem 3rem;
-  padding-left: 40px;
-  padding-right: 40px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: "Inter", sans-serif;
-}
-
-.botao-cadastro:hover, .fechar-cadastro:hover{
-  background-color: rgba(104, 217, 197, 0.76);
-}
-
-.nome-email-cadastro {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 8rem;
+  display: inline-flex;
   align-items: center;
-  border-radius: 5px;
-  padding: 10px;
-  position: relative;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.inputs-cadastro input {	
-  border: none;
-  outline: none;
-  background: rgb(31, 68, 90);
-  border-radius: 7px;
-  padding: 0.3rem 1.8rem;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.356);
-  width: 100%;
-  height: 2.1rem;
-  font-size: 1.1rem;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
-  font-family: "Inter", sans-serif;
-  padding-left: 20px;
-  padding-right: 10px;
+.subtitulo-cadastro img {
+  width: 140px;
 }
 
-.inputs-cadastro input + input {
-  margin-top: 1rem;
+.cadastro-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+.cadastro-subtitle {
+  color: rgba(231, 251, 248, 0.7);
+  font-size: 0.95rem;
 }
 
 .formulario-cadastro {
   display: flex;
-  width: 80%;
-  justify-content: space-between;
-  margin-top: -1rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding: 0;
+  width: 100%;
   flex-direction: column;
-  align-items: center;
+  gap: 18px;
 }
 
-.modal-cadastro {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 2rem;
-  z-index: 1001;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+.inputs-cadastro {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
 }
 
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
+.inputs-cadastro input {
+  border: 1px solid rgba(155, 232, 223, 0.2);
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: left;
+  color: var(--c-text-inverse);
+  width: 100%;
+  font-size: 0.95rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-.fechar-cadastro{
-  margin: 0;
-  padding: 8px 12px;
-  border-radius: 7px;
+.inputs-cadastro input::placeholder {
+  color: rgba(231, 251, 248, 0.55);
+}
+
+.inputs-cadastro input:focus {
+  border-color: rgba(155, 232, 223, 0.7);
+  box-shadow: 0 0 0 3px rgba(95, 217, 204, 0.18);
+}
+
+.botao-cadastro {
+  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-strong));
+  color: rgba(3, 35, 41, 0.96);
+  font-size: 0.95rem;
   font-weight: 600;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 24px rgba(3, 57, 68, 0.3);
+  width: 100%;
+}
+
+.botao-cadastro:hover {
+  transform: translateY(-1px);
+}
+
+.fechar-cadastro {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--c-text-inverse);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.fechar-cadastro:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .cartao-cadastro {
+    padding: 24px 20px;
+  }
+
+  .subtitulo-cadastro img {
+    width: 120px;
+  }
 }
