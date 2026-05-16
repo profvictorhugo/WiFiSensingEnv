@@ -15,7 +15,11 @@
   height: 520px;
   right: -180px;
   top: 40px;
-  background: radial-gradient(circle, rgba(155, 232, 223, 0.22), transparent 68%);
+  background: radial-gradient(
+    circle,
+    rgba(155, 232, 223, 0.22),
+    transparent 68%
+  );
   filter: blur(8px);
 }
 
@@ -97,7 +101,11 @@
   width: 180px;
   height: 6px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(95, 217, 204, 0.7), rgba(95, 217, 204, 0));
+  background: linear-gradient(
+    90deg,
+    rgba(95, 217, 204, 0.7),
+    rgba(95, 217, 204, 0)
+  );
 }
 
 .home-body {
@@ -201,7 +209,11 @@
   border-radius: 999px;
   padding: 6px 16px;
   font-weight: 600;
-  transition: border 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  transition:
+    border 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .home-module-button:hover {
@@ -209,6 +221,48 @@
   color: rgba(11, 47, 56, 0.9);
   background: rgba(95, 217, 204, 0.28);
   transform: translateY(-1px);
+}
+
+.home-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.home-logout-container {
+  display: flex;
+  width: 100%;
+  animation: fadeUp 0.6s ease both;
+  animation-delay: 0.12s;
+}
+
+.home-logout-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: rgba(220, 53, 69, 0.08);
+  border: 1px solid rgba(220, 53, 69, 0.25);
+  border-radius: 20px;
+  color: #e65b69;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.05);
+}
+
+.home-logout-button:hover {
+  background: #e0707b;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.25);
+}
+
+.home-logout-icon {
+  font-size: 1.1rem;
 }
 
 .home-summary {
@@ -278,7 +332,10 @@
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(6, 44, 50, 0.08);
   box-shadow: 0 10px 18px rgba(3, 57, 68, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .home-summary-history-link:hover {

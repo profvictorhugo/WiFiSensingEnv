@@ -28,6 +28,8 @@ const Usuarios = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setUsuarios((prev) => [...prev, { ...formValues }]);
+    setFormValues({ nome: '', email: '', permissao: 'Admin' });
     setMostrarModal(false);
   };
 
@@ -165,16 +167,25 @@ const Usuarios = () => {
                     <td>
                       <div className="usuarios-actions">
                         {editIndex === idx ? (
-                          <button
-                            className="usuarios-save-button"
-                            type="button"
-                            onClick={() => salvarEdicao(idx)}
-                          >
-                            Salvar
-                          </button>
+                          <>
+                            <button
+                              className="usuarios-save-button"
+                              type="button"
+                              onClick={() => salvarEdicao(idx)}
+                            >
+                              Salvar
+                            </button>
+                            <button
+                              className="usuarios-cancel-button"
+                              type="button"
+                              onClick={cancelarEdicao}
+                            >
+                              Cancelar
+                            </button>
+                          </>
                         ) : (
                           <button
-                            className="icon-button"
+                            className="icon-button edit-button"
                             aria-label="Editar usuário"
                             type="button"
                             onClick={() => iniciarEdicao(idx)}
@@ -185,7 +196,7 @@ const Usuarios = () => {
                           </button>
                         )}
                         <button
-                          className="icon-button"
+                          className="icon-button delete-button"
                           aria-label="Excluir usuário"
                           type="button"
                           title="Excluir usuário"

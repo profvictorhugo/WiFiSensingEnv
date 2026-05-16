@@ -1,5 +1,7 @@
 import "./Home.css";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../assets/logo.svg";
 
 const modules = [
@@ -88,21 +90,29 @@ const Home = () => {
         </header>
 
         <section className="home-body">
-          <div className="home-modules">
-            <ul className="home-modules-list">
-              {modules.map((module) => (
-                <li key={module.title} className="home-module-item">
-                  <span className={`home-module-dot ${module.tone}`} aria-hidden="true" />
-                  <div className="home-module-text">
-                    <strong>{module.title}</strong>
-                    <span>{module.description}</span>
-                  </div>
-                  <Link className="home-module-button" to={module.path}>
-                    Abrir
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <div className="home-left-column">
+            <div className="home-modules">
+              <ul className="home-modules-list">
+                {modules.map((module) => (
+                  <li key={module.title} className="home-module-item">
+                    <span className={`home-module-dot ${module.tone}`} aria-hidden="true" />
+                    <div className="home-module-text">
+                      <strong>{module.title}</strong>
+                      <span>{module.description}</span>
+                    </div>
+                    <Link className="home-module-button" to={module.path}>
+                      Abrir
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="home-logout-container">
+              <Link to="/" className="home-logout-button" title="Sair da conta">
+                <FontAwesomeIcon icon={faRightFromBracket} className="home-logout-icon" />
+                <span>Sair da conta</span>
+              </Link>
+            </div>
           </div>
           <aside className="home-summary">
             <h3 className="home-summary-title">Resumo rápido</h3>
