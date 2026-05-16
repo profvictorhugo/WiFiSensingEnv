@@ -4,25 +4,28 @@ import PropTypes from "prop-types";
 
 const Cadastro = ({ onFechar }) => {
   return (
-    <div>
-      <div className="backdrop" onClick={onFechar}></div>
+    <div className="cadastro-layer" role="dialog" aria-modal="true">
+      <div className="backdrop" onClick={onFechar} />
       <div className="cartao-cadastro modal-cadastro">
-        <div className="subtitulo-cadastro">
-          <img src={cadastroSubtitulo} alt="Subtítulo" />
+        <button type="button" onClick={onFechar} className="fechar-cadastro" aria-label="Fechar cadastro">
+          X
+        </button>
+        <div className="cadastro-header">
+          <div className="subtitulo-cadastro">
+            <img src={cadastroSubtitulo} alt="Cadastro" />
+          </div>
+          <h2 className="cadastro-title">Criar conta</h2>
+          <p className="cadastro-subtitle">Preencha os campos para comecar.</p>
         </div>
-
         <form className="formulario-cadastro">
           <div className="inputs-cadastro">
-            <input type="text" name="nome" placeholder="nome" />
-            <input type="email" name="email" placeholder="e-mail" />
-            <input type="password" name="senha" placeholder="senha" />
-            <input type="password" name="confirmacao" placeholder="confirmar senha" />
+            <input type="text" name="nome" placeholder="Nome" />
+            <input type="email" name="email" placeholder="E-mail" />
+            <input type="password" name="senha" placeholder="Senha" />
+            <input type="password" name="confirmacao" placeholder="Confirmar senha" />
           </div>
+          <button type="submit" className="botao-cadastro">Cadastrar</button>
         </form>
-        <div>
-          <button className="botao-cadastro">Cadastrar</button>
-          <button onClick={onFechar} className="fechar-cadastro">X</button>
-        </div>
       </div>
     </div>
   );
